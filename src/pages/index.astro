@@ -1,0 +1,159 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import EventBus from "../components/EventBus.tsx";
+import ArchitectureMap from "../components/ArchitectureMap.astro";
+import ReliabilityScorecard from "../components/ReliabilityScorecard.astro";
+import ExperienceTimeline from "../components/ExperienceTimeline.astro";
+import SentinelSimulator from "../components/SentinelSimulator.tsx";
+import AnomalyExplorer from "../components/AnomalyExplorer.tsx";
+import ContactCopy from "../components/ContactCopy.tsx";
+import { profile } from "../data/profile";
+
+const description =
+  "Backend Engineer building reliable event-driven systems. Interactive system playground, incident simulations, and anomaly detection demos.";
+---
+<MainLayout title={`${profile.name} - Backend Engineer`} description={description}>
+  <section class="section hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Event-driven systems, but make it fun</div>
+        <h1>{profile.headline}</h1>
+        <p>{profile.summary}</p>
+        <div class="hero-actions">
+          <a class="cta-primary" href="#playground">Explore my systems</a>
+          <a class="cta-secondary" href={profile.links.github} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a class="cta-secondary" href={profile.links.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        </div>
+        <div class="hero-meta">
+          <span class="pill">{profile.location}</span>
+          <span class="pill">Backend Engineer</span>
+          <span class="pill">Event-driven ownership</span>
+        </div>
+      </div>
+      <div>
+        <EventBus client:load />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="playground">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Systems playground</div>
+          <h2>Trace the flow, spot the safeguards.</h2>
+          <p class="arch-hint">
+            Architecture Mode turns the whole site into a diagram-first view and highlights where each project lives.
+          </p>
+        </div>
+        <div class="pill">Ctrl + K for command palette</div>
+      </div>
+      <div class="playground-grid">
+        <div class="surface">
+          <div class="eyebrow">Event-driven map</div>
+          <h3>Service mesh in miniature</h3>
+          <p class="arch-hint">
+            API gateways, compute, storage, and queues stitched with observability. Projects attach right where real
+            incidents happen.
+          </p>
+          <ArchitectureMap />
+        </div>
+        <ReliabilityScorecard />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Experience</div>
+          <h2>Owning services end-to-end in production.</h2>
+        </div>
+        <div class="pill">Expandable timeline</div>
+      </div>
+      <ExperienceTimeline />
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Projects</div>
+          <h2>Flagship systems, fully interactive.</h2>
+          <p class="arch-hint">Run the simulations. Watch how retries, backoffs, and anomaly boundaries behave.</p>
+        </div>
+      </div>
+      <div class="projects">
+        <SentinelSimulator client:visible />
+        <AnomalyExplorer client:visible />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Capability map</div>
+          <h2>Focused clusters instead of a wall of buzzwords.</h2>
+        </div>
+      </div>
+      <div class="skills-map">
+        {profile.skills.map((skill) => (
+          <details>
+            <summary>{skill.title}</summary>
+            <ul>
+              {skill.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="certifications">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Certifications & Education</div>
+          <h2>Security and data science grounded in engineering.</h2>
+        </div>
+      </div>
+      <div class="cert-grid">
+        {profile.certifications.map((cert) => (
+          <div class="cert-card">
+            <strong>{cert.title}</strong>
+            <div class="arch-hint">{cert.issuer}</div>
+          </div>
+        ))}
+        {profile.education.map((edu) => (
+          <div class="cert-card">
+            <strong>{edu.title}</strong>
+            <div class="arch-hint">{edu.issuer}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Contact</div>
+          <h2>Let's ship something resilient.</h2>
+          <p class="arch-hint">Copy the email or open your mail client.</p>
+        </div>
+      </div>
+      <ContactCopy client:visible email={profile.email} />
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,69 @@
+---
+import "../styles/global.css";
+import CommandPalette from "../components/CommandPalette.tsx";
+import EasterEgg from "../components/EasterEgg.tsx";
+import Header from "../components/Header.tsx";
+import { profile } from "../data/profile";
+
+const { title, description } = Astro.props;
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).toString()
+  : Astro.url.toString();
+const ogImage = Astro.site ? new URL("/og.svg", Astro.site).toString() : "/og.svg";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f3ee" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1215" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("shayan-site-settings");
+          const parsed = stored ? JSON.parse(stored) : {};
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          const theme = parsed.theme || (prefersDark ? "dark" : "light");
+          const motion = parsed.motion || (prefersReduced ? "reduced" : "full");
+          const arch = parsed.arch || "off";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.motion = motion;
+          if (arch === "on") {
+            document.documentElement.dataset.arch = "on";
+          }
+        } catch (error) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header client:load name={profile.name} role={profile.role} />
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="footer">
+      <div class="container">
+        Built in Astro | {profile.location} | Event-driven by design
+      </div>
+    </footer>
+    <CommandPalette client:load />
+    <EasterEgg client:load />
+  </body>
+</html>

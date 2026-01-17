@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Shayan Mudassar portfolio">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1215" />
+      <stop offset="100%" stop-color="#1a9aa3" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="980" cy="120" r="140" fill="#f4b251" opacity="0.35" />
+  <circle cx="240" cy="520" r="180" fill="#1a9aa3" opacity="0.35" />
+  <text x="80" y="220" fill="#f2f4f7" font-size="54" font-family="Space Grotesk, sans-serif" font-weight="600">
+    Shayan Mudassar
+  </text>
+  <text x="80" y="290" fill="#f2f4f7" font-size="32" font-family="Space Grotesk, sans-serif">
+    Backend Engineer - Event-driven systems
+  </text>
+  <rect x="80" y="360" width="320" height="48" rx="24" fill="#f4b251" />
+  <text x="110" y="392" fill="#141c21" font-size="22" font-family="IBM Plex Mono, monospace">
+    shayan-mudassar
+  </text>
+</svg>

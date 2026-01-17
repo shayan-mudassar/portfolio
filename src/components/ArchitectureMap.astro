@@ -1,0 +1,47 @@
+<div class="arch-map" id="architecture-map">
+  <svg viewBox="0 0 900 320" role="img" aria-label="Event-driven system map">
+    <defs>
+      <linearGradient id="archLine" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.8" />
+        <stop offset="100%" stop-color="var(--accent-2)" stop-opacity="0.8" />
+      </linearGradient>
+    </defs>
+    <path d="M70 140 L830 140" stroke="url(#archLine)" stroke-width="3" fill="none" />
+    <path d="M220 140 L220 230" stroke="var(--mono)" stroke-dasharray="6 6" />
+    <path d="M520 140 L520 230" stroke="var(--mono)" stroke-dasharray="6 6" />
+
+    <g class="arch-node">
+      <rect class="arch-node-box" x="40" y="100" width="140" height="60" rx="12" />
+      <text class="arch-node-text" x="110" y="135" text-anchor="middle" font-size="14">API Gateway</text>
+    </g>
+    <g class="arch-node">
+      <rect class="arch-node-box" x="200" y="100" width="140" height="60" rx="12" />
+      <text class="arch-node-text" x="270" y="135" text-anchor="middle" font-size="14">Lambda</text>
+    </g>
+    <g class="arch-node">
+      <rect class="arch-node-box" x="360" y="100" width="170" height="60" rx="12" />
+      <text class="arch-node-text" x="445" y="135" text-anchor="middle" font-size="14">DynamoDB / RDS</text>
+    </g>
+    <g class="arch-node">
+      <rect class="arch-node-box" x="560" y="100" width="170" height="60" rx="12" />
+      <text class="arch-node-text" x="645" y="135" text-anchor="middle" font-size="14">EventBridge / SQS</text>
+    </g>
+    <g class="arch-node">
+      <rect class="arch-node-box" x="760" y="100" width="110" height="60" rx="12" />
+      <text class="arch-node-text" x="815" y="135" text-anchor="middle" font-size="14">Obs</text>
+    </g>
+
+    <g class="arch-project">
+      <rect class="arch-project-box" x="160" y="230" width="120" height="50" rx="12" />
+      <text class="arch-project-text" x="220" y="260" text-anchor="middle" font-size="12">Sentinel</text>
+    </g>
+    <g class="arch-project">
+      <rect class="arch-project-box" x="460" y="230" width="140" height="50" rx="12" />
+      <text class="arch-project-text" x="530" y="260" text-anchor="middle" font-size="12">Anomaly Lab</text>
+    </g>
+  </svg>
+  <div class="arch-legend">
+    <span><span class="arch-dot"></span> Projects mapped onto the flow</span>
+    <span>Toggle Architecture Mode to emphasize the diagram.</span>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+---
+import { profile } from "../data/profile";
+---
+<div class="timeline">
+  {profile.experience.map((role, index) => (
+    <div class="timeline-item" style={`--i: ${index};`}>
+      <div class="timeline-marker" aria-hidden="true"></div>
+      <details open={index === 0}>
+        <summary>
+          <div>
+            {role.company} - {role.role}
+            <div class="timeline-role">{role.location}</div>
+          </div>
+          <div class="timeline-role">{role.period}</div>
+        </summary>
+        <div class="timeline-body">
+          <ul>
+            {role.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+          <div class="timeline-panels">
+            <div class="panel-box">
+              <strong>What I shipped</strong>
+              <ul>
+                {role.shipped.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="panel-box">
+              <strong>How it ran in prod</strong>
+              <ul>
+                {role.ranInProd.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  ))}
+</div>

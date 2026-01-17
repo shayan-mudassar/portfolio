@@ -1,0 +1,49 @@
+---
+const items = [
+  {
+    label: "Retries + Backoff",
+    detail: "Protects downstream services during transient failures.",
+    score: "Hardened",
+  },
+  {
+    label: "Idempotency",
+    detail: "Safely replays webhook deliveries without duplication.",
+    score: "Verified",
+  },
+  {
+    label: "DLQ + Replay",
+    detail: "Failed events are quarantined and safely replayed.",
+    score: "Operable",
+  },
+  {
+    label: "Tracing",
+    detail: "Correlation IDs follow events end-to-end.",
+    score: "Mapped",
+  },
+  {
+    label: "Canary Deploys",
+    detail: "Gradual rollouts with rapid rollback windows.",
+    score: "Ready",
+  },
+];
+---
+<div class="surface">
+  <div class="eyebrow">Reliability scorecard</div>
+  <h3>How the systems stay calm under pressure</h3>
+  <p class="arch-hint">
+    Patterns I ship by default. Hover or focus each row for why it exists.
+  </p>
+  <div class="scorecard">
+    {items.map((item) => (
+      <div
+        class="scorecard-item tooltip"
+        tabindex="0"
+        data-tooltip={item.detail}
+        aria-label={`${item.label}: ${item.detail}`}
+      >
+        <strong>{item.label}</strong>
+        <span>{item.score}</span>
+      </div>
+    ))}
+  </div>
+</div>
