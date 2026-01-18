@@ -16,6 +16,7 @@ export const profile = {
       role: "Backend Engineer",
       period: "Jan 2024 - Jun 2025",
       location: "Berlin, Germany",
+      impact: "MTTR -24%",
       bullets: [
         "Owned incident intake services end-to-end, from API design to production rollouts and on-call support.",
         "Designed event-driven workflows for triage, escalation, and audit trails using queues and topic routing.",
@@ -39,6 +40,7 @@ export const profile = {
       role: "Backend Engineer",
       period: "Jan 2021 - Aug 2023",
       location: "Peshawar, Pakistan",
+      impact: "p95 latency -38%",
       bullets: [
         "Built high-throughput messaging APIs with rate limits, idempotency keys, and strict validation.",
         "Migrated legacy workflows to async pipelines, reducing latency spikes and improving throughput.",
@@ -61,6 +63,7 @@ export const profile = {
       role: "Software Engineer",
       period: "Jun 2019 - Dec 2020",
       location: "Peshawar, Pakistan",
+      impact: "Inventory accuracy +18%",
       bullets: [
         "Developed backend services for inventory and order tracking with reliable audit histories.",
         "Modeled product and supplier data with transaction-safe workflows.",
@@ -139,6 +142,33 @@ export const profile = {
     {
       title: "BEng in Computer Science",
       issuer: "University of Engineering & Technology",
+    },
+  ],
+  architectureNodes: [
+    {
+      id: "gateway",
+      label: "API Gateway",
+      detail: "Auth, rate limits, and idempotency tokens at the edge.",
+    },
+    {
+      id: "lambda",
+      label: "Lambda",
+      detail: "Stateless handlers that orchestrate workflows and retries.",
+    },
+    {
+      id: "storage",
+      label: "DynamoDB / RDS",
+      detail: "Schema versioning, outbox writes, and safe migrations.",
+    },
+    {
+      id: "bus",
+      label: "EventBridge / SQS",
+      detail: "Fan-out events, DLQ handling, and replay tooling.",
+    },
+    {
+      id: "obs",
+      label: "Observability",
+      detail: "Tracing, metrics, and alerts tied to SLOs.",
     },
   ],
 };

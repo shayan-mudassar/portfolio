@@ -1,7 +1,8 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import EventBus from "../components/EventBus.tsx";
-import ArchitectureMap from "../components/ArchitectureMap.astro";
+import EventLedger from "../components/EventLedger.tsx";
+import ArchitectureMap from "../components/ArchitectureMap.tsx";
 import ReliabilityScorecard from "../components/ReliabilityScorecard.astro";
 import ExperienceTimeline from "../components/ExperienceTimeline.astro";
 import SentinelSimulator from "../components/SentinelSimulator.tsx";
@@ -28,6 +29,7 @@ const description =
             LinkedIn
           </a>
         </div>
+        <EventLedger client:load />
         <div class="hero-meta">
           <span class="pill">{profile.location}</span>
           <span class="pill">Backend Engineer</span>
@@ -60,7 +62,7 @@ const description =
             API gateways, compute, storage, and queues stitched with observability. Projects attach right where real
             incidents happen.
           </p>
-          <ArchitectureMap />
+          <ArchitectureMap client:load />
         </div>
         <ReliabilityScorecard />
       </div>

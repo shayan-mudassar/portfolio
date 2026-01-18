@@ -10,6 +10,7 @@ import { profile } from "../data/profile";
           <div>
             {role.company} - {role.role}
             <div class="timeline-role">{role.location}</div>
+            {role.impact ? <div class="timeline-impact">{role.impact}</div> : null}
           </div>
           <div class="timeline-role">{role.period}</div>
         </summary>

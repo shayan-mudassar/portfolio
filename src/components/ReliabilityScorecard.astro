@@ -1,4 +1,6 @@
 ---
+import SloDial from "./SloDial.tsx";
+
 const items = [
   {
     label: "Retries + Backoff",
@@ -28,11 +30,16 @@ const items = [
 ];
 ---
 <div class="surface">
-  <div class="eyebrow">Reliability scorecard</div>
-  <h3>How the systems stay calm under pressure</h3>
-  <p class="arch-hint">
-    Patterns I ship by default. Hover or focus each row for why it exists.
-  </p>
+  <div class="scorecard-layout">
+    <div>
+      <div class="eyebrow">Reliability scorecard</div>
+      <h3>How the systems stay calm under pressure</h3>
+      <p class="arch-hint">
+        Patterns I ship by default. Hover or focus each row for why it exists.
+      </p>
+    </div>
+    <SloDial client:visible />
+  </div>
   <div class="scorecard">
     {items.map((item) => (
       <div

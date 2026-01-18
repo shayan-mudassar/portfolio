@@ -3,6 +3,7 @@ import "../styles/global.css";
 import CommandPalette from "../components/CommandPalette.tsx";
 import EasterEgg from "../components/EasterEgg.tsx";
 import Header from "../components/Header.tsx";
+import KeyboardHints from "../components/KeyboardHints.tsx";
 import { profile } from "../data/profile";
 
 const { title, description } = Astro.props;
@@ -65,5 +66,6 @@ const ogImage = Astro.site ? new URL("/og.svg", Astro.site).toString() : "/og.sv
     </footer>
     <CommandPalette client:load />
     <EasterEgg client:load />
+    <KeyboardHints client:load />
   </body>
 </html>

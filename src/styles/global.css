@@ -244,6 +244,67 @@ input:focus-visible {
   margin-top: 28px;
 }
 
+.ledger {
+  margin-top: 22px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  font-size: 0.8rem;
+}
+
+.ledger-title {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  color: var(--mono);
+  margin-bottom: 8px;
+}
+
+.ledger-stream {
+  display: grid;
+  gap: 6px;
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.ledger-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: var(--bg-soft);
+  animation: ledger-pop 0.4s ease both;
+}
+
+.ledger--static .ledger-item {
+  animation: none;
+}
+
+.ledger-time {
+  font-family: var(--font-mono);
+  color: var(--mono);
+  font-size: 0.72rem;
+}
+
+.ledger-name {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text);
+}
+
+.ledger-tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.6rem;
+  color: var(--mono);
+}
+
 .cta-primary,
 .cta-secondary {
   display: inline-flex;
@@ -416,6 +477,19 @@ button:disabled {
   font-weight: 600;
 }
 
+.arch-node-button {
+  cursor: pointer;
+}
+
+.arch-node-button.active .arch-node-box {
+  stroke: var(--accent);
+  fill: color-mix(in srgb, var(--accent) 10%, var(--bg-elev));
+}
+
+.arch-node-button:focus-visible .arch-node-box {
+  stroke: var(--accent);
+}
+
 .arch-project-box {
   fill: color-mix(in srgb, var(--accent) 12%, var(--bg-elev));
   stroke: var(--accent);
@@ -425,6 +499,24 @@ button:disabled {
   fill: var(--text);
   font-family: var(--font-sans);
   font-weight: 600;
+}
+
+.arch-panel {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.arch-panel-title {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  color: var(--mono);
+  margin-bottom: 6px;
 }
 
 .arch-legend {
@@ -454,6 +546,42 @@ button:disabled {
   height: 10px;
   border-radius: 999px;
   display: inline-block;
+}
+
+.scorecard-layout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.slo-dial {
+  display: grid;
+  gap: 8px;
+  align-items: center;
+  justify-items: center;
+  min-width: 140px;
+}
+
+.slo-track {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 8;
+}
+
+.slo-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+}
+
+.slo-label {
+  text-align: center;
+  font-size: 0.85rem;
 }
 
 .scorecard {
@@ -537,6 +665,19 @@ button:disabled {
   color: var(--mono);
 }
 
+.timeline-impact {
+  display: inline-flex;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mono);
+  background: var(--bg-soft);
+}
+
 .timeline-body {
   margin-top: 14px;
   display: grid;
@@ -614,6 +755,30 @@ button:disabled {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.failure-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.failure-toggle button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mono);
+  background: var(--bg-soft);
+}
+
+.failure-toggle button.active {
+  border-color: var(--accent);
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-elev));
 }
 
 .console-log {
@@ -929,6 +1094,31 @@ html[data-arch="on"] #architecture-map {
   z-index: 15;
 }
 
+.keyboard-hints {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  z-index: 30;
+  display: grid;
+  gap: 6px;
+  max-width: 240px;
+}
+
+.keyboard-hints-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.keyboard-hints-body {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
 .dlq-easter {
   position: fixed;
   right: 24px;
@@ -991,6 +1181,17 @@ html[data-arch="on"] #architecture-map {
   }
 }
 
+@keyframes ledger-pop {
+  0% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 980px) {
   .hero-grid,
   .playground-grid,
@@ -1003,6 +1204,11 @@ html[data-arch="on"] #architecture-map {
 
   .nav-links {
     display: none;
+  }
+
+  .scorecard-layout {
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 
   html[data-arch="on"] main {

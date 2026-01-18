@@ -37,8 +37,62 @@ const Sparkline = ({ values, accent }: { values: number[]; accent: string }) => 
   );
 };
 
+type FailureMode = "Timeout" | "Bad payload" | "Rate limit";
+
+const failureModes: FailureMode[] = ["Timeout", "Bad payload", "Rate limit"];
+
+const scenarios: Record<
+  FailureMode,
+  {
+    start: string;
+    attempt1: string;
+    attempt2: string;
+    metrics: {
+      initial: [number, number];
+      locked: [number, number];
+      retry: [number, number];
+      dlq: [number, number];
+    };
+  }
+> = {
+  Timeout: {
+    start: "Event received: payment_webhook_failed",
+    attempt1: "Attempt #1 timed out -> scheduling retry (1.2s)",
+    attempt2: "Attempt #2 timed out -> routed to DLQ",
+    metrics: {
+      initial: [140, 0.04],
+      locked: [220, 0.08],
+      retry: [480, 0.18],
+      dlq: [820, 0.32],
+    },
+  },
+  "Bad payload": {
+    start: "Event received: payment_webhook_failed",
+    attempt1: "Attempt #1 rejected -> payload validation failed",
+    attempt2: "Attempt #2 rejected -> routed to DLQ",
+    metrics: {
+      initial: [160, 0.06],
+      locked: [260, 0.12],
+      retry: [420, 0.22],
+      dlq: [650, 0.3],
+    },
+  },
+  "Rate limit": {
+    start: "Event received: payment_webhook_failed",
+    attempt1: "Attempt #1 rate limited -> backing off (1.2s)",
+    attempt2: "Attempt #2 rate limited -> routed to DLQ",
+    metrics: {
+      initial: [180, 0.05],
+      locked: [300, 0.1],
+      retry: [520, 0.2],
+      dlq: [760, 0.28],
+    },
+  },
+};
+
 const SentinelSimulator = () => {
   const [status, setStatus] = useState<"idle" | "running" | "dlq" | "replayed">("idle");
+  const [failureMode, setFailureMode] = useState<FailureMode>("Timeout");
   const [logs, setLogs] = useState<string[]>([]);
   const [metrics, setMetrics] = useState({ latency: 120, errorRate: 0.02 });
   const [latencyHistory, setLatencyHistory] = useState<number[]>([120, 160, 140]);
@@ -79,32 +133,33 @@ const SentinelSimulator = () => {
     setLogs([]);
     const prefersReduced = document.documentElement.dataset.motion === "reduced";
     const delay = (ms: number) => Math.max(20, ms * (prefersReduced ? 0.15 : 1));
+    const scenario = scenarios[failureMode];
     const correlation = randomId("cor");
     const idem = randomId("idem");
     setCorrelationId(correlation);
     setIdempotencyKey(idem);
 
-    pushLog(`Event received: payment_webhook_failed (${correlation})`);
-    updateMetrics(140, 0.04);
+    pushLog(`${scenario.start} (${correlation})`);
+    updateMetrics(...scenario.metrics.initial);
 
     timersRef.current.push(
       window.setTimeout(() => {
         pushLog(`Idempotency lock acquired (${idem})`);
-        updateMetrics(220, 0.08);
+        updateMetrics(...scenario.metrics.locked);
       }, delay(600))
     );
 
     timersRef.current.push(
       window.setTimeout(() => {
-        pushLog("Attempt #1 failed -> scheduling retry (1.2s)");
-        updateMetrics(480, 0.18);
+        pushLog(scenario.attempt1);
+        updateMetrics(...scenario.metrics.retry);
       }, delay(1200))
     );
 
     timersRef.current.push(
       window.setTimeout(() => {
-        pushLog("Attempt #2 failed -> routed to DLQ");
-        updateMetrics(820, 0.32);
+        pushLog(scenario.attempt2);
+        updateMetrics(...scenario.metrics.dlq);
         setStatus("dlq");
       }, delay(2200))
     );
@@ -113,7 +168,7 @@ const SentinelSimulator = () => {
   const replay = () => {
     clearTimers();
     setStatus("running");
-    pushLog("Replay requested from DLQ");
+    pushLog(`Replay requested after ${failureMode.toLowerCase()} failure`);
     updateMetrics(520, 0.18);
     const prefersReduced = document.documentElement.dataset.motion === "reduced";
     const delay = (ms: number) => Math.max(20, ms * (prefersReduced ? 0.15 : 1));
@@ -153,6 +208,21 @@ const SentinelSimulator = () => {
           </div>
           <div className="arch-mode-indicator">
             Status: <strong>{statusLabel}</strong>
+          </div>
+          <div className="failure-toggle" role="radiogroup" aria-label="Failure injection mode">
+            {failureModes.map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                role="radio"
+                aria-checked={failureMode === mode}
+                className={failureMode === mode ? "active" : ""}
+                onClick={() => setFailureMode(mode)}
+                disabled={status === "running"}
+              >
+                {mode}
+              </button>
+            ))}
           </div>
         </div>
         <div className="project-actions">
