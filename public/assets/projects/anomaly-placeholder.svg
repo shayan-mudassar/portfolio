@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Network Anomaly Detection placeholder">
+  <rect width="1200" height="675" fill="#f0ede6" />
+  <rect x="40" y="40" width="1120" height="595" rx="24" fill="#ffffff" stroke="#d2d6dc" stroke-width="4" />
+  <polyline
+    fill="none"
+    stroke="#2e3a4a"
+    stroke-width="4"
+    points="80,420 160,360 240,390 320,330 400,380 480,320 560,360 640,300 720,340 800,280 880,310 960,260 1040,300"
+  />
+  <circle cx="320" cy="330" r="10" fill="#f4b251" />
+  <circle cx="560" cy="360" r="10" fill="#f4b251" />
+  <circle cx="800" cy="280" r="10" fill="#f4b251" />
+  <text x="600" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#4e535a">
+    Network Anomaly Detection
+  </text>
+  <text x="600" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#4e535a">
+    Replace with real screenshot
+  </text>
+</svg>

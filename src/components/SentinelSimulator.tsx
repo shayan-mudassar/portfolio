@@ -100,6 +100,8 @@ const SentinelSimulator = () => {
   const [correlationId, setCorrelationId] = useState(randomId("cor"));
   const [idempotencyKey, setIdempotencyKey] = useState(randomId("idem"));
   const timersRef = useRef<number[]>([]);
+  const base = import.meta.env.BASE_URL;
+  const screenshotSrc = `${base}assets/projects/sentinel-placeholder.svg`;
 
   const statusLabel = useMemo(() => {
     if (status === "dlq") return "Routed to DLQ";
@@ -190,90 +192,140 @@ const SentinelSimulator = () => {
   };
 
   return (
-    <div className="console">
-      <div className="console-top">
+    <div className="project-block" id="project-sentinel" data-project-card="sentinel">
+      <div className="project-header">
         <div>
-          <div className="pill">Incident console</div>
-          <div className="project-header">
-            <h3>Sentinel Incident Platform</h3>
-            <div className="project-actions">
-              <a
-                href="https://github.com/shayan-mudassar/sentinel-incident-platform"
-                target="_blank"
-                rel="noreferrer"
-              >
-                View repo
-              </a>
-            </div>
-          </div>
-          <div className="arch-mode-indicator">
-            Status: <strong>{statusLabel}</strong>
-          </div>
-          <div className="failure-toggle" role="radiogroup" aria-label="Failure injection mode">
-            {failureModes.map((mode) => (
-              <button
-                key={mode}
-                type="button"
-                role="radio"
-                aria-checked={failureMode === mode}
-                className={failureMode === mode ? "active" : ""}
-                onClick={() => setFailureMode(mode)}
-                disabled={status === "running"}
-              >
-                {mode}
-              </button>
-            ))}
-          </div>
+          <h3>Sentinel Incident Platform</h3>
+          <p className="project-tagline">Incident workflow coordination with reliable event processing.</p>
         </div>
         <div className="project-actions">
-          <button
-            className="cta-primary"
-            type="button"
-            onClick={runSimulation}
-            disabled={status === "running"}
+          <a
+            href="https://github.com/shayan-mudassar/sentinel-incident-platform"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Sentinel Incident Platform on GitHub"
           >
-            Trigger payment_webhook_failed
-          </button>
-          <button className="cta-secondary" type="button" onClick={replay} disabled={status !== "dlq"}>
-            Replay
-          </button>
+            GitHub
+          </a>
         </div>
       </div>
 
-      <div className="metrics-grid">
-        <div className="metric-card">
-          <div className="eyebrow">Latency</div>
-          <div className="metric-value">{Math.round(metrics.latency)} ms</div>
-          <Sparkline values={latencyHistory} accent="var(--accent)" />
+      <div className="project-grid">
+        <figure className="project-media">
+          {/* TODO: Replace with a real Sentinel screenshot in public/assets/projects/. */}
+          <img
+            src={screenshotSrc}
+            alt="Sentinel incident console screenshot placeholder"
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="675"
+          />
+          <figcaption>Placeholder image. Replace with a real screenshot of the incident console.</figcaption>
+        </figure>
+        <div className="case-study">
+          <div>
+            <h4>Problem</h4>
+            <p>
+              Incident workflows break when payment webhooks fail or arrive twice, making recovery slow and hard to
+              audit.
+            </p>
+          </div>
+          <div>
+            <h4>Approach</h4>
+            <ul>
+              <li>Designed event-driven intake with correlation IDs and idempotency at the edge.</li>
+              <li>Modeled incident state changes with an outbox and DLQ for replayable recovery.</li>
+              <li>Instrumented traces, metrics, and logs to tie failures to user impact.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Outcome</h4>
+            <ul>
+              <li>Delivered resilient incident workflows with safe retries and replay tooling.</li>
+              <li>Made failures traceable across services for faster triage.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>How users interact with it</h4>
+            <p>Operators trigger incidents, review retries, and replay failed events from a shared console.</p>
+          </div>
         </div>
-        <div className="metric-card">
-          <div className="eyebrow">Error rate</div>
-          <div className="metric-value">{(metrics.errorRate * 100).toFixed(1)}%</div>
-          <Sparkline values={errorHistory} accent="var(--accent-2)" />
+      </div>
+
+      <div className="console">
+        <div className="console-top">
+          <div>
+            <div className="pill">Incident console</div>
+            <div className="arch-mode-indicator">
+              Status: <strong>{statusLabel}</strong>
+            </div>
+            <div className="failure-toggle" role="radiogroup" aria-label="Failure injection mode">
+              {failureModes.map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  role="radio"
+                  aria-checked={failureMode === mode}
+                  className={failureMode === mode ? "active" : ""}
+                  onClick={() => setFailureMode(mode)}
+                  disabled={status === "running"}
+                >
+                  {mode}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="project-actions">
+            <button
+              className="cta-primary"
+              type="button"
+              onClick={runSimulation}
+              disabled={status === "running"}
+            >
+              Trigger payment_webhook_failed
+            </button>
+            <button className="cta-secondary" type="button" onClick={replay} disabled={status !== "dlq"}>
+              Replay
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="console-log" aria-live="polite">
-        {logs.length === 0 && <div>No incidents yet. Trigger an event to start.</div>}
-        {logs.map((log) => (
-          <div key={log}>{log}</div>
-        ))}
-      </div>
+        <div className="metrics-grid">
+          <div className="metric-card">
+            <div className="eyebrow">Latency</div>
+            <div className="metric-value">{Math.round(metrics.latency)} ms</div>
+            <Sparkline values={latencyHistory} accent="var(--accent)" />
+          </div>
+          <div className="metric-card">
+            <div className="eyebrow">Error rate</div>
+            <div className="metric-value">{(metrics.errorRate * 100).toFixed(1)}%</div>
+            <Sparkline values={errorHistory} accent="var(--accent-2)" />
+          </div>
+        </div>
 
-      <div className="arch-hint">
-        Correlation ID: <strong>{correlationId}</strong> - Idempotency key: <strong>{idempotencyKey}</strong>
-      </div>
+        <div className="console-log" aria-live="polite">
+          {logs.length === 0 && <div>No incidents yet. Trigger an event to start.</div>}
+          {logs.map((log) => (
+            <div key={log}>{log}</div>
+          ))}
+        </div>
 
-      <div className="accordion">
-        <details>
-          <summary>Design choices</summary>
-          <ul>
-            <li>Idempotency keys prevent double writes from repeated webhooks.</li>
-            <li>Outbox pattern ensures database writes publish reliably to the bus.</li>
-            <li>DLQ + replay tooling keeps failures safe and observable.</li>
-            <li>Structured logging and tracing keep correlation IDs in every event.</li>
-          </ul>
-        </details>
+        <div className="arch-hint">
+          Correlation ID: <strong>{correlationId}</strong> - Idempotency key: <strong>{idempotencyKey}</strong>
+        </div>
+
+        <div className="accordion">
+          <details>
+            <summary>Key engineering decisions</summary>
+            <ul>
+              <li>Idempotency keys gate webhook retries to prevent double writes.</li>
+              <li>Outbox events keep data changes and emissions consistent.</li>
+              <li>DLQ + replay tooling isolates failures without losing events.</li>
+              <li>Correlation IDs flow through logs, traces, and alerts.</li>
+            </ul>
+          </details>
+        </div>
       </div>
     </div>
   );

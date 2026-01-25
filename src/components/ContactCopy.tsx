@@ -29,7 +29,7 @@ const ContactCopy = ({ email }: ContactCopyProps) => {
           Copy email
         </button>
         <a className="cta-secondary" href={`mailto:${email}`}>
-          Mailto
+          Email me
         </a>
       </div>
       <div className="copy-status" aria-live="polite">

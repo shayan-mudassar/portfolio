@@ -11,29 +11,40 @@ import ContactCopy from "../components/ContactCopy.tsx";
 import { profile } from "../data/profile";
 
 const description =
-  "Backend Engineer building reliable event-driven systems. Interactive system playground, incident simulations, and anomaly detection demos.";
+  "Senior Full-Stack Engineer in London delivering product-ready, event-driven systems with end-to-end ownership and production readiness.";
+const base = import.meta.env.BASE_URL;
+const cvUrl = `${base}${profile.cvPath.replace(/^\//, "")}`;
 ---
-<MainLayout title={`${profile.name} - Backend Engineer`} description={description}>
+<MainLayout title={`${profile.name} | ${profile.role}`} description={description}>
   <section class="section hero" id="home">
     <div class="container hero-grid">
       <div>
-        <div class="eyebrow">Event-driven systems, but make it fun</div>
+        <div class="eyebrow">{profile.positioning}</div>
         <h1>{profile.headline}</h1>
-        <p>{profile.summary}</p>
+        <p class="hero-lead">{profile.summary}</p>
+        <p class="hero-proof">{profile.proofPoints}</p>
         <div class="hero-actions">
-          <a class="cta-primary" href="#playground">Explore my systems</a>
-          <a class="cta-secondary" href={profile.links.github} target="_blank" rel="noreferrer">
-            GitHub
+          <a class="cta-primary" href={cvUrl} aria-label="View CV PDF">
+            View CV
           </a>
-          <a class="cta-secondary" href={profile.links.linkedin} target="_blank" rel="noreferrer">
-            LinkedIn
+          <a class="cta-secondary" href={`mailto:${profile.email}`} aria-label="Contact Shayan via email">
+            Contact
+          </a>
+          <a
+            class="cta-secondary"
+            href={profile.links.github}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Shayan Mudassar on GitHub"
+          >
+            GitHub
           </a>
         </div>
         <EventLedger client:load />
         <div class="hero-meta">
           <span class="pill">{profile.location}</span>
-          <span class="pill">Backend Engineer</span>
-          <span class="pill">Event-driven ownership</span>
+          <span class="pill">{profile.role}</span>
+          <span class="pill">Production readiness</span>
         </div>
       </div>
       <div>
@@ -87,8 +98,8 @@ const description =
       <div class="section-header">
         <div>
           <div class="eyebrow">Projects</div>
-          <h2>Flagship systems, fully interactive.</h2>
-          <p class="arch-hint">Run the simulations. Watch how retries, backoffs, and anomaly boundaries behave.</p>
+          <h2>Mini case studies with interactive demos.</h2>
+          <p class="arch-hint">Each project shows the problem, the engineering approach, and the operational outcome.</p>
         </div>
       </div>
       <div class="projects">
@@ -146,12 +157,32 @@ const description =
     </div>
   </section>
 
+  <section class="section" id="cta">
+    <div class="container">
+      <div class="cta-card">
+        <div>
+          <div class="eyebrow">Open to roles</div>
+          <h2>Open to roles: Full-Stack / Backend (Product-facing)</h2>
+          <p class="arch-hint">{profile.workPreference}</p>
+        </div>
+        <div class="cta-actions">
+          <a class="cta-primary" href={cvUrl} aria-label="Download CV PDF">
+            Download CV
+          </a>
+          <a class="cta-secondary" href={`mailto:${profile.email}`} aria-label="Email Shayan Mudassar">
+            Email me
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="contact">
     <div class="container">
       <div class="section-header">
         <div>
           <div class="eyebrow">Contact</div>
-          <h2>Let's ship something resilient.</h2>
+          <h2>Let's talk about product-facing systems.</h2>
           <p class="arch-hint">Copy the email or open your mail client.</p>
         </div>
       </div>

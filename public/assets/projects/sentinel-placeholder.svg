@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Sentinel Incident Platform placeholder">
+  <rect width="1200" height="675" fill="#f0ede6" />
+  <rect x="40" y="40" width="1120" height="595" rx="24" fill="#ffffff" stroke="#d2d6dc" stroke-width="4" />
+  <rect x="80" y="120" width="520" height="80" rx="12" fill="#eef3f4" />
+  <rect x="80" y="230" width="520" height="80" rx="12" fill="#eef3f4" />
+  <rect x="80" y="340" width="520" height="80" rx="12" fill="#eef3f4" />
+  <rect x="640" y="120" width="440" height="300" rx="16" fill="#f7f4ed" />
+  <rect x="640" y="450" width="440" height="140" rx="16" fill="#f7f4ed" />
+  <text x="600" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#4e535a">
+    Sentinel Incident Platform
+  </text>
+  <text x="600" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#4e535a">
+    Replace with real screenshot
+  </text>
+</svg>

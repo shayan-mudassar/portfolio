@@ -68,7 +68,14 @@ Edit `src/data/profile.ts` to change:
 - Projects and links
 - Skills clusters
 - Certifications and education
-- Email address (currently set to `hello@shayanmudassar.dev` - update to your real contact)
+- Email address (replace with your real contact)
+
+## Updating assets
+
+- CV: replace `public/assets/Shayan_Mudassar_CV.pdf` with your latest PDF.
+- Project screenshots: replace the placeholders in `public/assets/projects/`:
+  - `public/assets/projects/sentinel-placeholder.svg`
+  - `public/assets/projects/anomaly-placeholder.svg`
 
 ## Notes
 

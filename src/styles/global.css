@@ -237,6 +237,16 @@ input:focus-visible {
   color: var(--muted);
 }
 
+.hero-lead {
+  margin: 0;
+}
+
+.hero-proof {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  color: var(--mono);
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -713,6 +723,11 @@ button:disabled {
   gap: 16px;
 }
 
+.project-tagline {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
 .project-header {
   display: flex;
   flex-wrap: wrap;
@@ -739,6 +754,58 @@ button:disabled {
 .project-actions a:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.project-media {
+  margin: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+.project-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-media figcaption {
+  padding: 10px 12px;
+  font-size: 0.75rem;
+  color: var(--mono);
+  border-top: 1px solid var(--line);
+}
+
+.case-study {
+  display: grid;
+  gap: 12px;
+}
+
+.case-study h4 {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mono);
+}
+
+.case-study p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.case-study ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
 }
 
 .console {
@@ -955,6 +1022,24 @@ input[type="range"] {
 }
 
 .contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  box-shadow: var(--shadow);
+}
+
+.cta-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -1196,10 +1281,16 @@ html[data-arch="on"] #architecture-map {
   .hero-grid,
   .playground-grid,
   .timeline-panels,
+  .project-grid,
   .anomaly-controls,
   .skills-map,
   .cert-grid {
     grid-template-columns: 1fr;
+  }
+
+  .cta-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .nav-links {

@@ -28,6 +28,8 @@ const AnomalyExplorer = () => {
   const [model, setModel] = useState<Model>("Isolation Forest");
   const [contamination, setContamination] = useState(0.08);
   const [threshold, setThreshold] = useState(2.1);
+  const base = import.meta.env.BASE_URL;
+  const screenshotSrc = `${base}assets/projects/anomaly-placeholder.svg`;
 
   const series = useMemo(() => createSeries(), []);
 
@@ -81,112 +83,174 @@ const AnomalyExplorer = () => {
   }, [series]);
 
   return (
-    <div className="anomaly-panel">
+    <div className="project-block" id="project-anomaly" data-project-card="anomaly">
       <div className="project-header">
-        <h3>Network Anomaly Detection</h3>
+        <div>
+          <h3>Network Anomaly Detection</h3>
+          <p className="project-tagline">Detect abnormal behavior from logs without labeled data.</p>
+        </div>
         <div className="project-actions">
-          <a href="https://github.com/shayan-mudassar/network-anomaly-detection" target="_blank" rel="noreferrer">
-            View repo
+          <a
+            href="https://github.com/shayan-mudassar/network-anomaly-detection"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Network Anomaly Detection on GitHub"
+          >
+            GitHub
           </a>
         </div>
       </div>
-      <p className="arch-hint">
-        Toggle between models and tune contamination vs threshold to see precision/recall tradeoffs.
-      </p>
 
-      <div className="model-toggle" role="tablist" aria-label="Model selector">
-        {["Isolation Forest", "One-Class SVM"].map((option) => (
-          <button
-            key={option}
-            type="button"
-            role="tab"
-            aria-selected={model === option}
-            className={model === option ? "active" : ""}
-            onClick={() => setModel(option as Model)}
-          >
-            {option}
-          </button>
-        ))}
+      <div className="project-grid">
+        <figure className="project-media">
+          {/* TODO: Replace with a real Anomaly Detection screenshot in public/assets/projects/. */}
+          <img
+            src={screenshotSrc}
+            alt="Network anomaly detection screenshot placeholder"
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="675"
+          />
+          <figcaption>Placeholder image. Replace with a real screenshot of the anomaly explorer.</figcaption>
+        </figure>
+        <div className="case-study">
+          <div>
+            <h4>Problem</h4>
+            <p>Ops teams need to detect abnormal network behavior from logs without labeled incident data.</p>
+          </div>
+          <div>
+            <h4>Approach</h4>
+            <ul>
+              <li>Built a feature pipeline and synthetic evaluation set to test sensitivity.</li>
+              <li>Compared Isolation Forest vs One-Class SVM for unsupervised detection.</li>
+              <li>Exposed contamination and threshold controls to make tradeoffs explicit.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Outcome</h4>
+            <ul>
+              <li>Delivered actionable anomaly signals for monitoring use cases.</li>
+              <li>Made model tradeoffs transparent for stakeholders.</li>
+            </ul>
+          </div>
+          <div>
+            <h4>How users interact with it</h4>
+            <p>Analysts tune thresholds, compare models, and review highlighted anomalies in a time-series view.</p>
+          </div>
+        </div>
       </div>
 
-      <div className="anomaly-controls">
-        <label>
-          Contamination ({(contamination * 100).toFixed(0)}%)
-          <input
-            type="range"
-            min={0.02}
-            max={0.2}
-            step={0.01}
-            value={contamination}
-            onChange={(event) => setContamination(parseFloat(event.target.value))}
-          />
-        </label>
-        <label>
-          Threshold ({threshold.toFixed(1)} sigma)
-          <input
-            type="range"
-            min={1.2}
-            max={3.4}
-            step={0.1}
-            value={threshold}
-            onChange={(event) => setThreshold(parseFloat(event.target.value))}
-          />
-        </label>
-      </div>
+      <div className="anomaly-panel">
+        <p className="arch-hint">
+          Toggle between models and tune contamination vs threshold to see precision/recall tradeoffs.
+        </p>
 
-      <svg className="anomaly-chart" viewBox="0 0 100 100" role="img" aria-label="Synthetic time series">
-        <polyline
-          fill="none"
-          stroke="var(--accent-3)"
-          strokeWidth="1.8"
-          points={chart.points}
-        />
-        {series.map((point, index) => {
-          const x = (index / (series.length - 1)) * 100;
-          const y = 90 - ((point.value - chart.min) / (chart.max - chart.min || 1)) * 70;
-          const predicted = analysis.predicted[index];
-          return (
-            <circle
-              key={point.index}
-              cx={x}
-              cy={y}
-              r={point.actual ? 3.4 : 2.4}
-              fill={point.actual ? "var(--accent-2)" : predicted ? "var(--accent)" : "var(--line)"}
-              opacity={predicted || point.actual ? 0.95 : 0.5}
+        <div className="model-toggle" role="tablist" aria-label="Model selector">
+          {["Isolation Forest", "One-Class SVM"].map((option) => (
+            <button
+              key={option}
+              type="button"
+              role="tab"
+              aria-selected={model === option}
+              className={model === option ? "active" : ""}
+              onClick={() => setModel(option as Model)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+
+        <div className="anomaly-controls">
+          <label>
+            Contamination ({(contamination * 100).toFixed(0)}%)
+            <input
+              type="range"
+              min={0.02}
+              max={0.2}
+              step={0.01}
+              value={contamination}
+              onChange={(event) => setContamination(parseFloat(event.target.value))}
             />
-          );
-        })}
-      </svg>
-      <div className="arch-legend">
-        <span>
-          <span className="legend-dot" style={{ background: "var(--accent)" }}></span> Predicted
-        </span>
-        <span>
-          <span className="legend-dot" style={{ background: "var(--accent-2)" }}></span> Actual anomalies
-        </span>
-      </div>
+          </label>
+          <label>
+            Threshold ({threshold.toFixed(1)} sigma)
+            <input
+              type="range"
+              min={1.2}
+              max={3.4}
+              step={0.1}
+              value={threshold}
+              onChange={(event) => setThreshold(parseFloat(event.target.value))}
+            />
+          </label>
+        </div>
 
-      <div className="tradeoff">
-        <div>
-          <div className="eyebrow">Precision</div>
-          <div className="arch-hint">{(analysis.precision * 100).toFixed(0)}%</div>
-          <div className="tradeoff-bar">
-            <span style={{ width: `${clamp(analysis.precision * 100, 2, 100)}%` }}></span>
+        <svg className="anomaly-chart" viewBox="0 0 100 100" role="img" aria-label="Synthetic time series">
+          <polyline
+            fill="none"
+            stroke="var(--accent-3)"
+            strokeWidth="1.8"
+            points={chart.points}
+          />
+          {series.map((point, index) => {
+            const x = (index / (series.length - 1)) * 100;
+            const y = 90 - ((point.value - chart.min) / (chart.max - chart.min || 1)) * 70;
+            const predicted = analysis.predicted[index];
+            return (
+              <circle
+                key={point.index}
+                cx={x}
+                cy={y}
+                r={point.actual ? 3.4 : 2.4}
+                fill={point.actual ? "var(--accent-2)" : predicted ? "var(--accent)" : "var(--line)"}
+                opacity={predicted || point.actual ? 0.95 : 0.5}
+              />
+            );
+          })}
+        </svg>
+        <div className="arch-legend">
+          <span>
+            <span className="legend-dot" style={{ background: "var(--accent)" }}></span> Predicted
+          </span>
+          <span>
+            <span className="legend-dot" style={{ background: "var(--accent-2)" }}></span> Actual anomalies
+          </span>
+        </div>
+
+        <div className="tradeoff">
+          <div>
+            <div className="eyebrow">Precision</div>
+            <div className="arch-hint">{(analysis.precision * 100).toFixed(0)}%</div>
+            <div className="tradeoff-bar">
+              <span style={{ width: `${clamp(analysis.precision * 100, 2, 100)}%` }}></span>
+            </div>
+          </div>
+          <div>
+            <div className="eyebrow">Recall</div>
+            <div className="arch-hint">{(analysis.recall * 100).toFixed(0)}%</div>
+            <div className="tradeoff-bar">
+              <span style={{ width: `${clamp(analysis.recall * 100, 2, 100)}%` }}></span>
+            </div>
           </div>
         </div>
-        <div>
-          <div className="eyebrow">Recall</div>
-          <div className="arch-hint">{(analysis.recall * 100).toFixed(0)}%</div>
-          <div className="tradeoff-bar">
-            <span style={{ width: `${clamp(analysis.recall * 100, 2, 100)}%` }}></span>
-          </div>
-        </div>
-      </div>
 
-      <div className="arch-hint">
-        {model === "Isolation Forest"
-          ? "Isolation Forest expects a contamination ratio and flags outliers by density splits."
-          : "One-Class SVM draws a boundary around normal behavior and flags points outside it."}
+        <div className="arch-hint">
+          {model === "Isolation Forest"
+            ? "Isolation Forest expects a contamination ratio and flags outliers by density splits."
+            : "One-Class SVM draws a boundary around normal behavior and flags points outside it."}
+        </div>
+
+        <div className="accordion">
+          <details>
+            <summary>Key engineering decisions</summary>
+            <ul>
+              <li>Unsupervised models avoid labeled data bottlenecks.</li>
+              <li>Standardized distance scoring keeps thresholds consistent across runs.</li>
+              <li>UI surfaces precision and recall to guide operations teams.</li>
+            </ul>
+          </details>
+        </div>
       </div>
     </div>
   );
