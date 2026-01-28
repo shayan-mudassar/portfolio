@@ -4,16 +4,16 @@
   color-scheme: light dark;
   --font-sans: "Space Grotesk", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --bg: #f7f7f4;
+  --bg: #fafaf6;
   --bg-elev: #ffffff;
-  --bg-soft: #efeee9;
-  --text: #121417;
-  --muted: #37414a;
-  --line: #c2c7cf;
-  --accent: #167e87;
-  --accent-2: #d99a3b;
-  --accent-3: #1f2a36;
-  --mono: #616973;
+  --bg-soft: #f1f0ea;
+  --text: #0d1115;
+  --muted: #26303a;
+  --line: #b4bcc6;
+  --accent: #136f77;
+  --accent-2: #cf8f2c;
+  --accent-3: #18212b;
+  --mono: #46505a;
   --shadow: 0 14px 40px rgba(14, 18, 22, 0.12);
   --radius-lg: 20px;
   --radius-md: 14px;
@@ -23,16 +23,16 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0a1014;
-  --bg-elev: #182128;
-  --bg-soft: #121a20;
-  --text: #f6f8fa;
-  --muted: #b3bcc6;
-  --line: #2f3d48;
+  --bg: #0a0f14;
+  --bg-elev: #161f26;
+  --bg-soft: #11181f;
+  --text: #f8fafc;
+  --muted: #c7ced6;
+  --line: #33414c;
   --accent: #3fe3c7;
-  --accent-2: #f2a541;
-  --accent-3: #d5dde6;
-  --mono: #c0c7d0;
+  --accent-2: #f1a033;
+  --accent-3: #d9e2ea;
+  --mono: #d0d6de;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 }
 
@@ -52,16 +52,16 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: radial-gradient(circle at top right, rgba(26, 154, 163, 0.14), transparent 42%),
-    radial-gradient(circle at 15% 20%, rgba(244, 178, 81, 0.12), transparent 45%),
-    linear-gradient(transparent 0, transparent 28px, rgba(0, 0, 0, 0.04) 28px, rgba(0, 0, 0, 0.04) 29px);
+  background-image: radial-gradient(circle at top right, rgba(19, 111, 119, 0.12), transparent 42%),
+    radial-gradient(circle at 15% 20%, rgba(207, 143, 44, 0.1), transparent 45%),
+    linear-gradient(transparent 0, transparent 28px, rgba(0, 0, 0, 0.025) 28px, rgba(0, 0, 0, 0.025) 29px);
   background-size: auto, auto, 36px 36px;
 }
 
 [data-theme="dark"] body {
-  background-image: radial-gradient(circle at top right, rgba(63, 227, 199, 0.14), transparent 42%),
-    radial-gradient(circle at 20% 25%, rgba(242, 165, 65, 0.1), transparent 42%),
-    linear-gradient(transparent 0, transparent 28px, rgba(255, 255, 255, 0.05) 28px, rgba(255, 255, 255, 0.05) 29px);
+  background-image: radial-gradient(circle at top right, rgba(63, 227, 199, 0.12), transparent 42%),
+    radial-gradient(circle at 20% 25%, rgba(241, 160, 51, 0.08), transparent 42%),
+    linear-gradient(transparent 0, transparent 28px, rgba(255, 255, 255, 0.03) 28px, rgba(255, 255, 255, 0.03) 29px);
 }
 
 a {
@@ -148,7 +148,7 @@ input:focus-visible {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--mono);
+  color: var(--muted);
 }
 
 .site-header {
@@ -244,7 +244,7 @@ input:focus-visible {
 .hero-proof {
   margin: 10px 0 0;
   font-size: 0.9rem;
-  color: var(--mono);
+  color: var(--muted);
 }
 
 .hero-actions {
@@ -747,7 +747,7 @@ button:disabled {
 
 .project-actions a {
   font-size: 0.85rem;
-  color: var(--mono);
+  color: var(--muted);
   border-bottom: 1px solid transparent;
 }
 
@@ -1138,8 +1138,8 @@ input[type="range"] {
 
 .arch-hint {
   margin-top: 12px;
-  font-size: 0.85rem;
-  color: var(--mono);
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 
 .arch-mode-indicator {
