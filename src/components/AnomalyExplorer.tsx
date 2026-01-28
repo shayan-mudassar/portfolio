@@ -28,6 +28,7 @@ const AnomalyExplorer = () => {
   const [model, setModel] = useState<Model>("Isolation Forest");
   const [contamination, setContamination] = useState(0.08);
   const [threshold, setThreshold] = useState(2.1);
+  const showMedia = false;
   const base = import.meta.env.BASE_URL;
   const screenshotSrc = `${base}assets/projects/anomaly-placeholder.svg`;
 
@@ -101,19 +102,21 @@ const AnomalyExplorer = () => {
         </div>
       </div>
 
-      <div className="project-grid">
-        <figure className="project-media">
-          {/* TODO: Replace with a real Anomaly Detection screenshot in public/assets/projects/. */}
-          <img
-            src={screenshotSrc}
-            alt="Network anomaly detection screenshot placeholder"
-            loading="lazy"
-            decoding="async"
-            width="1200"
-            height="675"
-          />
-          <figcaption>Placeholder image. Replace with a real screenshot of the anomaly explorer.</figcaption>
-        </figure>
+      <div className={`project-grid${showMedia ? "" : " project-grid--solo"}`}>
+        {showMedia ? (
+          <figure className="project-media">
+            {/* TODO: Replace with a real Anomaly Detection screenshot in public/assets/projects/. */}
+            <img
+              src={screenshotSrc}
+              alt="Network anomaly detection screenshot"
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="675"
+            />
+            <figcaption>Replace with a real screenshot of the anomaly explorer.</figcaption>
+          </figure>
+        ) : null}
         <div className="case-study">
           <div>
             <h4>Problem</h4>

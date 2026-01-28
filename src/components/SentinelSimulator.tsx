@@ -100,6 +100,7 @@ const SentinelSimulator = () => {
   const [correlationId, setCorrelationId] = useState(randomId("cor"));
   const [idempotencyKey, setIdempotencyKey] = useState(randomId("idem"));
   const timersRef = useRef<number[]>([]);
+  const showMedia = false;
   const base = import.meta.env.BASE_URL;
   const screenshotSrc = `${base}assets/projects/sentinel-placeholder.svg`;
 
@@ -210,19 +211,21 @@ const SentinelSimulator = () => {
         </div>
       </div>
 
-      <div className="project-grid">
-        <figure className="project-media">
-          {/* TODO: Replace with a real Sentinel screenshot in public/assets/projects/. */}
-          <img
-            src={screenshotSrc}
-            alt="Sentinel incident console screenshot placeholder"
-            loading="lazy"
-            decoding="async"
-            width="1200"
-            height="675"
-          />
-          <figcaption>Placeholder image. Replace with a real screenshot of the incident console.</figcaption>
-        </figure>
+      <div className={`project-grid${showMedia ? "" : " project-grid--solo"}`}>
+        {showMedia ? (
+          <figure className="project-media">
+            {/* TODO: Replace with a real Sentinel screenshot in public/assets/projects/. */}
+            <img
+              src={screenshotSrc}
+              alt="Sentinel incident console screenshot"
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="675"
+            />
+            <figcaption>Replace with a real screenshot of the incident console.</figcaption>
+          </figure>
+        ) : null}
         <div className="case-study">
           <div>
             <h4>Problem</h4>

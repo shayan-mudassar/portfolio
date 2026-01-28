@@ -68,7 +68,7 @@ Edit `src/data/profile.ts` to change:
 - Projects and links
 - Skills clusters
 - Certifications and education
-- Email address (replace with your real contact)
+- Email address
 
 ## Updating assets
 

@@ -763,6 +763,10 @@ button:disabled {
   align-items: start;
 }
 
+.project-grid--solo {
+  grid-template-columns: 1fr;
+}
+
 .project-media {
   margin: 0;
   border-radius: var(--radius-md);
