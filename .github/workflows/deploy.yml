@@ -28,12 +28,18 @@ jobs:
 
       - name: Compute site URL
         run: |
-          OWNER="${GITHUB_REPOSITORY%%/*}"
-          REPO="${GITHUB_REPOSITORY#*/}"
-          if [ "$REPO" = "$OWNER.github.io" ]; then
-            echo "SITE_URL=https://$OWNER.github.io/" >> "$GITHUB_ENV"
+          if [ -f public/CNAME ]; then
+            DOMAIN="$(tr -d '\r\n' < public/CNAME)"
+            echo "SITE_URL=https://$DOMAIN/" >> "$GITHUB_ENV"
+            echo "ASTRO_BASE=/" >> "$GITHUB_ENV"
           else
-            echo "SITE_URL=https://$OWNER.github.io/$REPO/" >> "$GITHUB_ENV"
+            OWNER="${GITHUB_REPOSITORY%%/*}"
+            REPO="${GITHUB_REPOSITORY#*/}"
+            if [ "$REPO" = "$OWNER.github.io" ]; then
+              echo "SITE_URL=https://$OWNER.github.io/" >> "$GITHUB_ENV"
+            else
+              echo "SITE_URL=https://$OWNER.github.io/$REPO/" >> "$GITHUB_ENV"
+            fi
           fi
 
       - name: Install dependencies
