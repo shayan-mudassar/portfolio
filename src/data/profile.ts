@@ -9,7 +9,7 @@ export const profile = {
   proofPoints: "Customer-facing workflows, stakeholder collaboration, measurable improvements.",
   cvPath: "assets/Shayan_Mudassar_CV.pdf",
   workPreference: "London / hybrid / remote",
-  email: "info@shayanmudassar.dev",
+  email: "info@shayanmudassar.co.uk",
   links: {
     github: "https://github.com/shayan-mudassar",
     linkedin: "https://linkedin.com/in/shayan-mudassar",
