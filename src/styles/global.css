@@ -661,13 +661,36 @@ button:disabled {
   cursor: pointer;
   list-style: none;
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
   font-weight: 600;
 }
 
-.timeline summary::-webkit-details-marker {
+.timeline summary::-webkit-details-marker,
+.skills-map summary::-webkit-details-marker,
+.accordion summary::-webkit-details-marker {
   display: none;
+}
+
+.timeline summary::after,
+.skills-map summary::after,
+.accordion summary::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin-left: auto;
+  border-right: 2px solid var(--mono);
+  border-bottom: 2px solid var(--mono);
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.timeline details[open] summary::after,
+.skills-map details[open] summary::after,
+.accordion details[open] summary::after {
+  transform: rotate(45deg);
+  border-color: var(--accent);
 }
 
 .timeline-role {
@@ -993,6 +1016,20 @@ input[type="range"] {
 
 .skills-map summary {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 600;
+  list-style: none;
+}
+
+.accordion summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   font-weight: 600;
   list-style: none;
 }

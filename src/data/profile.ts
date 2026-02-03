@@ -18,11 +18,11 @@ export const profile = {
     {
       company: "Fixfirst",
       role: "Backend Engineer (Product-Facing Systems)",
-      period: "Jan 2024 - Jun 2025",
+      period: "January 2024 - November 2025",
       location: "Germany (remote)",
       impact: "Latency -30%",
       bullets: [
-        "Designed and delivered backend services that directly powered customer-facing web workflows used by thousands.",
+        "Designed and delivered backend services that directly powered customer-facing web workflows used by thousands of users.",
         "Owned API contracts end-to-end, collaborating closely with frontend teams to support evolving product features.",
         "Translated product requirements into scalable services and data models used across multiple user journeys.",
         "Improved customer experience by reducing latency by 30% on critical endpoints and failure rates across critical paths.",
@@ -42,12 +42,12 @@ export const profile = {
     {
       company: "SMSami",
       role: "Full-Stack Developer",
-      period: "Jan 2021 - Aug 2023",
+      period: "January 2021 - Aug 2023",
       location: "Pakistan",
       bullets: [
         "Owned full-stack features from UI implementation to backend logic and production deployment.",
         "Built and maintained customer-facing dashboards and internal tools used by real users.",
-        "Delivered end-to-end solutions across frontend interfaces, APIs, data storage, and cloud deployment.",
+        "Delivered end-to-end solutions covering frontend interfaces, APIs, data storage, and cloud deployment.",
         "Worked directly with stakeholders to refine requirements, iterate on features, and respond to user feedback.",
         "Mentored junior developers and contributed to code reviews and architectural discussions.",
       ],
@@ -65,11 +65,11 @@ export const profile = {
     {
       company: "AYS Electronics",
       role: "Junior Full-Stack Developer",
-      period: "Jun 2019 - Dec 2020",
+      period: "June 2019 - Dec 2020",
       location: "Pakistan",
       bullets: [
         "Implemented frontend features and backend endpoints as part of live production systems.",
-        "Worked on customer requirements, bug fixes, and incremental feature delivery.",
+        "Worked on real customer requirements, bug fixes, and incremental feature delivery.",
         "Gained hands-on experience across UI development, backend services, and database integrations.",
       ],
       shipped: [
