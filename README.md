@@ -19,6 +19,11 @@ npm run build
 
 The static output is generated in `dist/`.
 
+## Deployment
+
+- Static hosting: deploy the `dist/` folder to any static host.
+- GitHub Pages: see the workflow details below.
+
 ## Lint / Typecheck / Tests
 
 ```bash
@@ -64,11 +69,14 @@ SITE_URL="https://yourdomain.com/" npm run build
 
 Edit `src/data/profile.ts` to change:
 
-- Experience timeline
+- Experience timeline (used for hero micro-metrics)
 - Projects and links
 - Skills clusters
 - Certifications and education
 - Email address
+- Architecture node labels and details
+
+Hero proof bar copy lives in `src/pages/index.astro` (`proofBar`).
 
 ## Updating assets
 
@@ -76,6 +84,26 @@ Edit `src/data/profile.ts` to change:
 - Project screenshots: replace the placeholders in `public/assets/projects/`:
   - `public/assets/projects/sentinel-placeholder.svg`
   - `public/assets/projects/anomaly-placeholder.svg`
+
+## Deep links & shareable state
+
+Sections:
+
+- `/#playground`
+- `/#experience`
+- `/#projects`
+- `/#skills`
+- `/#certifications`
+- `/#contact`
+
+Project deep links:
+
+- `/#projects?project=sentinel`
+- `/#projects?project=anomaly`
+
+Anomaly shareable state:
+
+- `/#projects?project=anomaly&model=iforest&cont=0.08&sigma=2.1`
 
 ## Notes
 

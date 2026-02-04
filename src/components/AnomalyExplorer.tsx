@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { showToast } from "./ToastHost";
+import { getShareUrl, parseHash, setHash } from "../utils/hashRouting";
 
 type Model = "Isolation Forest" | "One-Class SVM";
 
@@ -24,10 +26,23 @@ const createSeries = (): Point[] => {
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
+const modelToParam: Record<Model, string> = {
+  "Isolation Forest": "iforest",
+  "One-Class SVM": "ocsvm",
+};
+
+const modelFromParam = (value: string | null) => {
+  if (!value) return null;
+  if (value.toLowerCase() === "iforest") return "Isolation Forest";
+  if (value.toLowerCase() === "ocsvm") return "One-Class SVM";
+  return null;
+};
+
 const AnomalyExplorer = () => {
   const [model, setModel] = useState<Model>("Isolation Forest");
   const [contamination, setContamination] = useState(0.08);
   const [threshold, setThreshold] = useState(2.1);
+  const [syncUrl, setSyncUrl] = useState(false);
   const showMedia = false;
   const base = import.meta.env.BASE_URL;
   const screenshotSrc = `${base}assets/projects/anomaly-placeholder.svg`;
@@ -82,6 +97,72 @@ const AnomalyExplorer = () => {
 
     return { points, min, max };
   }, [series]);
+
+  useEffect(() => {
+    const applyFromHash = () => {
+      const { section, params } = parseHash(window.location.hash);
+      if (section !== "projects") return;
+      const project = params.get("project");
+      if (project && project !== "anomaly") return;
+
+      let shouldSync = false;
+      const modelParam = modelFromParam(params.get("model"));
+      if (modelParam) {
+        setModel(modelParam);
+        shouldSync = true;
+      }
+
+      const contParam = parseFloat(params.get("cont") ?? "");
+      if (!Number.isNaN(contParam)) {
+        setContamination(clamp(contParam, 0.01, 0.2));
+        shouldSync = true;
+      }
+
+      const sigmaParam = parseFloat(params.get("sigma") ?? "");
+      if (!Number.isNaN(sigmaParam)) {
+        setThreshold(clamp(sigmaParam, 1.0, 4.0));
+        shouldSync = true;
+      }
+
+      if (shouldSync || project === "anomaly") {
+        setSyncUrl(true);
+      }
+    };
+
+    applyFromHash();
+    window.addEventListener("hashchange", applyFromHash);
+    return () => window.removeEventListener("hashchange", applyFromHash);
+  }, []);
+
+  useEffect(() => {
+    if (!syncUrl) return;
+    setHash(
+      "projects",
+      {
+        project: "anomaly",
+        model: modelToParam[model],
+        cont: contamination.toFixed(2),
+        sigma: threshold.toFixed(1),
+      },
+      { replace: true }
+    );
+  }, [contamination, model, syncUrl, threshold]);
+
+  const copyLink = async () => {
+    const shareUrl = getShareUrl("projects", {
+      project: "anomaly",
+      model: modelToParam[model],
+      cont: contamination.toFixed(2),
+      sigma: threshold.toFixed(1),
+    });
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      showToast("Share link copied");
+      setSyncUrl(true);
+    } catch {
+      showToast("Copy failed");
+    }
+  };
 
   return (
     <div className="project-block" id="project-anomaly" data-project-card="anomaly">
@@ -206,9 +287,14 @@ const AnomalyExplorer = () => {
       </div>
 
       <div className="anomaly-panel">
-        <p className="arch-hint">
-          Toggle between models and tune contamination vs threshold to see precision/recall tradeoffs.
-        </p>
+        <div className="anomaly-header">
+          <p className="arch-hint">
+            Toggle between models and tune contamination vs threshold to see precision/recall tradeoffs.
+          </p>
+          <button className="copy-link" type="button" onClick={copyLink} aria-label="Copy anomaly share link">
+            Copy link
+          </button>
+        </div>
 
         <div className="model-toggle" role="tablist" aria-label="Model selector">
           {["Isolation Forest", "One-Class SVM"].map((option) => (
@@ -218,7 +304,10 @@ const AnomalyExplorer = () => {
               role="tab"
               aria-selected={model === option}
               className={model === option ? "active" : ""}
-              onClick={() => setModel(option as Model)}
+              onClick={() => {
+                setModel(option as Model);
+                setSyncUrl(true);
+              }}
             >
               {option}
             </button>
@@ -230,22 +319,28 @@ const AnomalyExplorer = () => {
             Contamination ({(contamination * 100).toFixed(0)}%)
             <input
               type="range"
-              min={0.02}
+              min={0.01}
               max={0.2}
               step={0.01}
               value={contamination}
-              onChange={(event) => setContamination(parseFloat(event.target.value))}
+              onChange={(event) => {
+                setContamination(parseFloat(event.target.value));
+                setSyncUrl(true);
+              }}
             />
           </label>
           <label>
             Threshold ({threshold.toFixed(1)} sigma)
             <input
               type="range"
-              min={1.2}
-              max={3.4}
+              min={1.0}
+              max={4.0}
               step={0.1}
               value={threshold}
-              onChange={(event) => setThreshold(parseFloat(event.target.value))}
+              onChange={(event) => {
+                setThreshold(parseFloat(event.target.value));
+                setSyncUrl(true);
+              }}
             />
           </label>
         </div>

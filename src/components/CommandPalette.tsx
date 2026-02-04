@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { profile } from "../data/profile";
+import { setHash } from "../utils/hashRouting";
 import { useSiteSettings } from "../utils/useSiteSettings";
 
 type Command = {
@@ -17,21 +18,39 @@ const CommandPalette = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const scrollToId = (id: string) => {
-    const target = document.getElementById(id);
-    if (!target) return;
-    const prefersReduced = settings?.motion === "reduced";
-    target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
+  const jumpToSection = (id: string) => {
+    setHash(id);
   };
 
   const commands = useMemo<Command[]>(
     () => [
-      { id: "playground", label: "Go to Playground", run: () => scrollToId("playground") },
-      { id: "experience", label: "Go to Experience", run: () => scrollToId("experience") },
-      { id: "projects", label: "Go to Projects", run: () => scrollToId("projects") },
-      { id: "skills", label: "Go to Skills", run: () => scrollToId("skills") },
-      { id: "certs", label: "Go to Certifications", run: () => scrollToId("certifications") },
-      { id: "contact", label: "Go to Contact", run: () => scrollToId("contact") },
+      { id: "playground", label: "Go to Playground", run: () => jumpToSection("playground") },
+      { id: "experience", label: "Go to Experience", run: () => jumpToSection("experience") },
+      { id: "projects", label: "Go to Projects", run: () => jumpToSection("projects") },
+      { id: "skills", label: "Go to Skills", run: () => jumpToSection("skills") },
+      { id: "certs", label: "Go to Certifications", run: () => jumpToSection("certifications") },
+      { id: "contact", label: "Go to Contact", run: () => jumpToSection("contact") },
+      {
+        id: "jump-sentinel",
+        label: "Jump to Sentinel case study",
+        hint: "Projects",
+        run: () => setHash("projects", { project: "sentinel" }),
+      },
+      {
+        id: "jump-anomaly",
+        label: "Jump to Anomaly Lab",
+        hint: "Projects",
+        run: () => setHash("projects", { project: "anomaly" }),
+      },
+      {
+        id: "jump-arch",
+        label: "Open Architecture Mode",
+        hint: "Playground",
+        run: () => {
+          if (settings?.arch !== "on") toggleArch();
+          jumpToSection("playground");
+        },
+      },
       {
         id: "github",
         label: "Open GitHub",

@@ -1,20 +1,23 @@
 import { useState } from "react";
+import { showToast } from "./ToastHost";
 
 type ContactCopyProps = {
   email: string;
 };
 
 const ContactCopy = ({ email }: ContactCopyProps) => {
-  const [status, setStatus] = useState("Copy email");
+  const [status, setStatus] = useState("");
 
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(email);
-      setStatus("Copied to clipboard");
-      window.setTimeout(() => setStatus("Copy email"), 2000);
+      showToast("Email copied");
+      setStatus("Email copied");
+      window.setTimeout(() => setStatus(""), 2000);
     } catch {
+      showToast("Copy failed");
       setStatus("Copy failed");
-      window.setTimeout(() => setStatus("Copy email"), 2000);
+      window.setTimeout(() => setStatus(""), 2000);
     }
   };
 
@@ -32,9 +35,11 @@ const ContactCopy = ({ email }: ContactCopyProps) => {
           Email me
         </a>
       </div>
-      <div className="copy-status" aria-live="polite">
-        {status}
-      </div>
+      {status ? (
+        <div className="copy-status sr-only" aria-live="polite">
+          {status}
+        </div>
+      ) : null}
     </div>
   );
 };
