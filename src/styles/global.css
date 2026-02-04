@@ -223,6 +223,7 @@ input:focus-visible {
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .control-button {
@@ -1676,6 +1677,28 @@ html[data-arch="on"] #architecture-map {
     grid-template-columns: 1fr;
   }
 
+  .section-header--sticky {
+    position: static;
+    padding: 0 0 18px;
+    background: none;
+    border-bottom: none;
+    backdrop-filter: none;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 104px;
+    padding-bottom: 76px;
+  }
+
+  .hero-proof-bar {
+    letter-spacing: 0.12em;
+    font-size: 0.7rem;
+  }
+
   .cta-card {
     flex-direction: column;
     align-items: flex-start;
@@ -1710,9 +1733,34 @@ html[data-arch="on"] #architecture-map {
     align-items: flex-start;
   }
 
+  .header-controls {
+    width: 100%;
+  }
+
   .hero-actions {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.3rem, 7vw, 3rem);
+  }
+
+  .hero-proof-bar span + span::before {
+    margin-right: 8px;
+  }
+
+  .anomaly-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .arch-guide {
+    inset: 8px;
+  }
+
+  .arch-guide-card {
+    max-width: 100%;
   }
 
   .toast-host {
