@@ -245,8 +245,8 @@ input:focus-visible {
 }
 
 .hero {
-  padding-top: 96px;
-  padding-bottom: 72px;
+  padding-top: 120px;
+  padding-bottom: 88px;
   animation: hero-rise 0.7s ease both;
 }
 
@@ -258,24 +258,57 @@ input:focus-visible {
 }
 
 .hero h1 {
-  font-size: clamp(2.4rem, 4vw, 3.5rem);
-  line-height: 1.1;
-  margin: 12px 0 18px;
+  font-size: clamp(2.8rem, 4.6vw, 4.1rem);
+  line-height: 1.05;
+  margin: 12px 0 14px;
 }
 
 .hero p {
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   color: var(--muted);
 }
 
 .hero-lead {
-  margin: 0;
+  margin: 6px 0 0;
+}
+
+.hero-proof-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--mono);
+  margin-bottom: 12px;
+}
+
+.hero-proof-bar span + span::before {
+  content: "•";
+  margin-right: 12px;
+  color: color-mix(in srgb, var(--mono) 60%, transparent);
 }
 
 .hero-proof {
-  margin: 10px 0 0;
-  font-size: 0.9rem;
+  margin: 12px 0 0;
+  font-size: 0.95rem;
   color: var(--muted);
+}
+
+.hero-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: var(--mono);
+}
+
+.hero-metrics span {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background: color-mix(in srgb, var(--bg-elev) 80%, transparent);
 }
 
 .hero-actions {

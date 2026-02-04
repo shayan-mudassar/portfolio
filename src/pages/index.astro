@@ -14,6 +14,12 @@ const description =
   "Senior Full-Stack Engineer in London delivering product-ready, event-driven systems with end-to-end ownership and production readiness.";
 const base = import.meta.env.BASE_URL;
 const cvUrl = `${base}${profile.cvPath.replace(/^\//, "")}`;
+const proofBar = ["AWS Serverless", "Event-driven", "Reliability patterns", "Product-facing systems"];
+const usageMetric = profile.experience[0]?.bullets.find((bullet) => bullet.includes("thousands of users"));
+const latencyMetric = profile.experience[0]?.impact
+  ? `${profile.experience[0].impact} on critical endpoints`
+  : profile.experience[0]?.bullets.find((bullet) => bullet.includes("critical endpoints"));
+const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
 ---
 <MainLayout title={`${profile.name} | ${profile.role}`} description={description}>
   <section class="section hero" id="home">
@@ -21,11 +27,23 @@ const cvUrl = `${base}${profile.cvPath.replace(/^\//, "")}`;
       <div>
         <div class="eyebrow">{profile.positioning}</div>
         <h1>{profile.headline}</h1>
+        <div class="hero-proof-bar" aria-label="Core proof points">
+          {proofBar.map((item) => (
+            <span>{item}</span>
+          ))}
+        </div>
         <p class="hero-lead">{profile.summary}</p>
         <p class="hero-proof">{profile.proofPoints}</p>
+        {heroMetrics.length ? (
+          <div class="hero-metrics" aria-label="Career metrics">
+            {heroMetrics.map((metric) => (
+              <span>{metric}</span>
+            ))}
+          </div>
+        ) : null}
         <div class="hero-actions">
-          <a class="cta-primary" href={cvUrl} aria-label="View CV PDF">
-            View CV
+          <a class="cta-primary" href={cvUrl} aria-label="View resume PDF">
+            Resume
           </a>
           <a class="cta-secondary" href={`mailto:${profile.email}`} aria-label="Contact Shayan via email">
             Contact
