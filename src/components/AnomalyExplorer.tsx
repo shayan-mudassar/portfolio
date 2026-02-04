@@ -118,6 +118,47 @@ const AnomalyExplorer = () => {
           </figure>
         ) : null}
         <div className="case-study">
+          <div className="project-snapshot">
+            <div className="eyebrow">Architecture snapshot</div>
+            <svg viewBox="0 0 600 120" role="img" aria-label="Anomaly detection architecture snapshot">
+              <defs>
+                <marker
+                  id="snapArrowAnomaly"
+                  markerWidth="8"
+                  markerHeight="8"
+                  refX="6"
+                  refY="4"
+                  orient="auto"
+                >
+                  <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)" />
+                </marker>
+              </defs>
+              <line className="snapshot-link" x1="130" y1="40" x2="170" y2="40" markerEnd="url(#snapArrowAnomaly)" />
+              <line className="snapshot-link" x1="290" y1="40" x2="330" y2="40" markerEnd="url(#snapArrowAnomaly)" />
+              <line className="snapshot-link" x1="450" y1="40" x2="490" y2="40" markerEnd="url(#snapArrowAnomaly)" />
+
+              <rect className="snapshot-node" x="20" y="20" width="110" height="40" rx="10" />
+              <text className="snapshot-label" x="75" y="45" textAnchor="middle">
+                Logs
+              </text>
+
+              <rect className="snapshot-node" x="170" y="20" width="120" height="40" rx="10" />
+              <text className="snapshot-label" x="230" y="45" textAnchor="middle">
+                Features
+              </text>
+
+              <rect className="snapshot-node" x="330" y="20" width="120" height="40" rx="10" />
+              <text className="snapshot-label" x="390" y="45" textAnchor="middle">
+                Model
+              </text>
+
+              <rect className="snapshot-node snapshot-node--accent" x="490" y="20" width="90" height="40" rx="10" />
+              <text className="snapshot-label" x="535" y="45" textAnchor="middle">
+                Alerts
+              </text>
+            </svg>
+            <div className="arch-hint">Feature scoring feeds the model and raises alerts at tuned thresholds.</div>
+          </div>
           <div>
             <h4>Problem</h4>
             <p>Ops teams need to detect abnormal network behavior from logs without labeled incident data.</p>
@@ -140,6 +181,26 @@ const AnomalyExplorer = () => {
           <div>
             <h4>How users interact with it</h4>
             <p>Analysts tune thresholds, compare models, and review highlighted anomalies in a time-series view.</p>
+          </div>
+          <div className="breaks-first">
+            <strong>What breaks first:</strong> contamination drift pushes false positives before thresholds are
+            recalibrated.
+          </div>
+          <div className="accordion">
+            <details>
+              <summary>Tradeoffs</summary>
+              <ul className="tradeoff-list">
+                <li>
+                  <strong>Chose:</strong> transparent model toggles with operator-tuned thresholds.
+                </li>
+                <li>
+                  <strong>Rejected:</strong> black-box auto-thresholding without operator context.
+                </li>
+                <li>
+                  <strong>Why:</strong> ops teams needed explainable tradeoffs between noise and misses.
+                </li>
+              </ul>
+            </details>
           </div>
         </div>
       </div>

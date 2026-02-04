@@ -974,12 +974,132 @@ button:disabled {
   color: var(--muted);
 }
 
+.project-snapshot {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--bg-elev) 78%, var(--bg-soft));
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 8px;
+}
+
+.project-snapshot svg {
+  width: 100%;
+  height: auto;
+}
+
+.snapshot-node {
+  fill: var(--bg-elev);
+  stroke: var(--line);
+  stroke-width: 1.4;
+}
+
+.snapshot-node--accent {
+  fill: color-mix(in srgb, var(--accent) 12%, var(--bg-elev));
+  stroke: var(--accent);
+}
+
+.snapshot-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--text);
+}
+
+.snapshot-link {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.breaks-first {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent-2);
+  background: color-mix(in srgb, var(--bg-soft) 75%, transparent);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tradeoff-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.tradeoff-list strong {
+  color: var(--text);
+}
+
 .console {
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--bg-elev);
   padding: 18px;
   box-shadow: var(--shadow);
+}
+
+.postmortem {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  background: var(--bg-soft);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 16px;
+}
+
+.postmortem-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.postmortem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.postmortem-title {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  color: var(--mono);
+  margin-bottom: 8px;
+}
+
+.postmortem-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.postmortem-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.postmortem-timeline li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.postmortem-time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--mono);
+  white-space: nowrap;
 }
 
 .console-top {
@@ -1466,6 +1586,7 @@ html[data-arch="on"] #architecture-map {
   .playground-grid,
   .timeline-panels,
   .project-grid,
+  .postmortem-grid,
   .anomaly-controls,
   .skills-map,
   .cert-grid {
