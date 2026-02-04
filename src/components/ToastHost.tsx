@@ -18,9 +18,10 @@ const ToastHost = () => {
   useEffect(() => {
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<{ message?: string }>).detail;
-      if (!detail?.message) return;
+      const message = detail?.message;
+      if (!message) return;
       const id = Math.random().toString(16).slice(2);
-      setToasts((prev) => [...prev, { id, message: detail.message }]);
+      setToasts((prev) => [...prev, { id, message }]);
       window.setTimeout(() => {
         setToasts((prev) => prev.filter((toast) => toast.id !== id));
       }, 2200);
