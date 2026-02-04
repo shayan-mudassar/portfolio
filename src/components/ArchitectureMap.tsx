@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { profile } from "../data/profile";
 import { useSiteSettings } from "../utils/useSiteSettings";
 
+const GUIDE_KEY = "shayan-arch-guide-seen";
+
 const ArchitectureMap = () => {
   const { settings } = useSiteSettings();
   const isArchMode = settings?.arch === "on";
   const nodes = profile.architectureNodes;
   const [selectedId, setSelectedId] = useState<string | null>(nodes[0]?.id ?? null);
+  const [showGuide, setShowGuide] = useState(false);
 
   const layout = useMemo(() => {
     const startX = 70;
@@ -22,16 +25,49 @@ const ArchitectureMap = () => {
   useEffect(() => {
     if (!isArchMode) {
       setSelectedId(null);
+      setShowGuide(false);
     } else if (!selectedId && nodes[0]) {
       setSelectedId(nodes[0].id);
     }
   }, [isArchMode, nodes, selectedId]);
+
+  useEffect(() => {
+    if (!isArchMode) return;
+    try {
+      const seen = localStorage.getItem(GUIDE_KEY);
+      if (!seen) {
+        setShowGuide(true);
+      }
+    } catch {
+      setShowGuide(false);
+    }
+  }, [isArchMode]);
+
+  useEffect(() => {
+    if (!showGuide) return;
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        dismissGuide();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [showGuide]);
 
   const selectedNode = nodes.find((node) => node.id === selectedId) ?? null;
 
   const onSelect = (id: string) => {
     if (!isArchMode) return;
     setSelectedId(id);
+  };
+
+  const dismissGuide = () => {
+    try {
+      localStorage.setItem(GUIDE_KEY, "true");
+    } catch {
+      // ignore storage errors
+    }
+    setShowGuide(false);
   };
 
   return (
@@ -54,8 +90,10 @@ const ArchitectureMap = () => {
             transform={`translate(${layout.positions[index]}, ${layout.lineY})`}
             role={isArchMode ? "button" : undefined}
             tabIndex={isArchMode ? 0 : -1}
+            aria-pressed={selectedId === node.id}
             aria-label={`${node.label}. ${node.detail}`}
             onClick={() => onSelect(node.id)}
+            onFocus={() => setSelectedId((prev) => prev ?? node.id)}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
@@ -83,11 +121,36 @@ const ArchitectureMap = () => {
           </text>
         </g>
       </svg>
+      {isArchMode && showGuide ? (
+        <div
+          className="arch-guide"
+          role="dialog"
+          aria-label="Architecture mode guide"
+          onClick={dismissGuide}
+        >
+          <div className="arch-guide-card" onClick={(event) => event.stopPropagation()}>
+            <div className="arch-guide-title">Architecture Mode</div>
+            <ul>
+              <li>Click nodes to learn what they do.</li>
+              <li>Projects attach here because they ship through these failure points.</li>
+              <li>Keyboard: Ctrl + K opens the palette, Esc closes this guide.</li>
+            </ul>
+            <button className="cta-secondary" type="button" onClick={dismissGuide}>
+              Got it
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div className="arch-legend">
         <span>
-          <span className="arch-dot"></span> Projects mapped onto the flow
+          <span className="legend-dot legend-dot--core"></span> Core services
         </span>
-        <span>Toggle Architecture Mode to emphasize the diagram.</span>
+        <span>
+          <span className="legend-dot legend-dot--project"></span> Projects anchored to the flow
+        </span>
+        <span>
+          <span className="legend-dot legend-dot--active"></span> Selected node
+        </span>
       </div>
       {isArchMode ? (
         <div className="arch-panel" role="status">
