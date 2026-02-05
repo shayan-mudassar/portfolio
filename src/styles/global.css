@@ -495,13 +495,17 @@ button:disabled {
 }
 
 .bus-node {
-  cursor: default;
+  cursor: pointer;
 }
 
 .bus-node-dot {
   fill: var(--bg);
   stroke: var(--line);
   stroke-width: 2;
+}
+
+.bus-node-hitbox {
+  fill: transparent;
 }
 
 .bus-node-label {
@@ -526,6 +530,20 @@ button:disabled {
 
 .bus-node:focus-visible .bus-node-dot {
   stroke: var(--accent);
+}
+
+.event-bus-popover {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.event-bus-popover p {
+  margin: 4px 0 0;
 }
 
 .bus-dot {
@@ -788,20 +806,51 @@ button:disabled {
   gap: 12px;
 }
 
+.scorecard-item-wrap {
+  position: relative;
+}
+
 .scorecard-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   padding: 12px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
   background: var(--bg-elev);
   font-size: 0.9rem;
+  min-height: 44px;
+  text-align: left;
 }
 
 .scorecard-item span {
   color: var(--mono);
   font-size: 0.78rem;
+}
+
+.scorecard-popover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 6;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  box-shadow: var(--shadow-soft);
+}
+
+.scorecard-popover.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .timeline {
@@ -855,6 +904,7 @@ button:disabled {
   justify-content: space-between;
   gap: 12px;
   font-weight: 600;
+  min-height: 44px;
 }
 
 .timeline summary::-webkit-details-marker,
@@ -1504,6 +1554,13 @@ input[type="range"] {
   border-radius: 8px;
   white-space: nowrap;
   z-index: 5;
+}
+
+@media (hover: none) {
+  .tooltip[data-tooltip]:hover::after,
+  .tooltip[data-tooltip]:focus-visible::after {
+    content: none;
+  }
 }
 
 .command-overlay {

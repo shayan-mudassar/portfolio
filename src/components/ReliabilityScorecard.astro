@@ -1,5 +1,6 @@
 ---
 import SloDial from "./SloDial.tsx";
+import ReliabilityScorecardList from "./ReliabilityScorecardList.tsx";
 
 const items = [
   {
@@ -40,17 +41,5 @@ const items = [
     </div>
     <SloDial client:visible />
   </div>
-  <div class="scorecard">
-    {items.map((item) => (
-      <div
-        class="scorecard-item tooltip"
-        tabindex="0"
-        data-tooltip={item.detail}
-        aria-label={`${item.label}: ${item.detail}`}
-      >
-        <strong>{item.label}</strong>
-        <span>{item.score}</span>
-      </div>
-    ))}
-  </div>
+  <ReliabilityScorecardList client:load items={items} />
 </div>

@@ -57,7 +57,6 @@ const ArchitectureMap = () => {
   const selectedNode = nodes.find((node) => node.id === selectedId) ?? null;
 
   const onSelect = (id: string) => {
-    if (!isArchMode) return;
     setSelectedId(id);
   };
 
@@ -88,8 +87,8 @@ const ArchitectureMap = () => {
             key={node.id}
             className={`arch-node-button ${selectedId === node.id ? "active" : ""}`}
             transform={`translate(${layout.positions[index]}, ${layout.lineY})`}
-            role={isArchMode ? "button" : undefined}
-            tabIndex={isArchMode ? 0 : -1}
+            role="button"
+            tabIndex={0}
             aria-pressed={selectedId === node.id}
             aria-label={`${node.label}. ${node.detail}`}
             onClick={() => onSelect(node.id)}
@@ -152,7 +151,7 @@ const ArchitectureMap = () => {
           <span className="legend-dot legend-dot--active"></span> Selected node
         </span>
       </div>
-      {isArchMode ? (
+      {selectedId ? (
         <div className="arch-panel" role="status">
           <div className="arch-panel-title">Focused node</div>
           {selectedNode ? (
