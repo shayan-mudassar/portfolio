@@ -53,6 +53,9 @@ jobs:
       - name: Tests
         run: npm run test
 
+      - name: Install Playwright test runner
+        run: npm install --no-save @playwright/test@1.51.1
+
       - name: Install Playwright browser
         run: npx playwright@1.51.1 install --with-deps chromium
 

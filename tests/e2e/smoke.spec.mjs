@@ -1,4 +1,4 @@
-import { expect, test } from 'playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('home loads and command palette opens with keyboard', async ({ page }) => {
   await page.goto('/');
