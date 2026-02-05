@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -11,11 +13,8 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  quality:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,6 +52,98 @@ jobs:
 
       - name: Tests
         run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse (mobile)
+        run: npx @lhci/cli@0.14.x autorun --config=.lighthouserc.mobile.json
+
+      - name: Lighthouse (desktop)
+        run: npx @lhci/cli@0.14.x autorun --config=.lighthouserc.desktop.json
+
+      - name: Enforce lighthouse floor
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+          const floors = { performance: 0.7, accessibility: 0.8, "best-practices": 0.8, seo: 0.75 };
+          const profiles = ["mobile", "desktop"];
+          const failures = [];
+
+          for (const profile of profiles) {
+            const manifestPath = path.join(".lighthouseci", profile, "manifest.json");
+            if (!fs.existsSync(manifestPath)) {
+              failures.push(`[${profile}] missing manifest`);
+              continue;
+            }
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+            const run = manifest.find((entry) => entry.isRepresentativeRun) || manifest[0];
+            if (!run) {
+              failures.push(`[${profile}] missing report run`);
+              continue;
+            }
+            const reportPath = path.join(".lighthouseci", profile, run.jsonPath);
+            const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+            for (const [category, floor] of Object.entries(floors)) {
+              const score = report.categories[category]?.score ?? 0;
+              if (score < floor) {
+                failures.push(`[${profile}] ${category} ${Math.round(score * 100)} < floor ${Math.round(floor * 100)}`);
+              }
+            }
+          }
+
+          if (failures.length > 0) {
+            console.error("Lighthouse catastrophic floor failed:");
+            failures.forEach((entry) => console.error(`- ${entry}`));
+            process.exit(1);
+          }
+
+          console.log("Lighthouse floor checks passed.");
+          NODE
+
+      - name: Upload lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: quality
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Compute site URL
+        run: |
+          if [ -f public/CNAME ]; then
+            DOMAIN="$(tr -d '\r\n' < public/CNAME)"
+            echo "SITE_URL=https://$DOMAIN/" >> "$GITHUB_ENV"
+            echo "ASTRO_BASE=/" >> "$GITHUB_ENV"
+          else
+            OWNER="${GITHUB_REPOSITORY%%/*}"
+            REPO="${GITHUB_REPOSITORY#*/}"
+            if [ "$REPO" = "$OWNER.github.io" ]; then
+              echo "SITE_URL=https://$OWNER.github.io/" >> "$GITHUB_ENV"
+            else
+              echo "SITE_URL=https://$OWNER.github.io/$REPO/" >> "$GITHUB_ENV"
+            fi
+          fi
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
