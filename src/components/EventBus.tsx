@@ -70,7 +70,18 @@ const EventBus = () => {
     setRunning(true);
     const start = performance.now();
     const prefersReduced = document.documentElement.dataset.motion === "reduced";
-    const duration = prefersReduced ? 1 : 2600;
+    if (prefersReduced) {
+      setActiveIndex(nodes.length - 1);
+      dotRef.current?.setAttribute("cx", geometry.endX.toString());
+      window.setTimeout(() => {
+        setActiveIndex(-1);
+        setRunning(false);
+        dotRef.current?.setAttribute("cx", geometry.startX.toString());
+      }, 120);
+      return;
+    }
+
+    const duration = 2600;
 
     const update = (now: number) => {
       const elapsed = now - start;

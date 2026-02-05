@@ -56,11 +56,15 @@ const EventLedger = () => {
 
   useEffect(() => {
     setEvents([makeEvent(), makeEvent(), makeEvent()]);
+    if (prefersReduced) {
+      return;
+    }
+
     const interval = window.setInterval(
       () => {
         setEvents((prev) => [makeEvent(), ...prev].slice(0, 6));
       },
-      prefersReduced ? 6000 : 2600
+      2600
     );
     return () => window.clearInterval(interval);
   }, [prefersReduced]);
