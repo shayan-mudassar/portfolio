@@ -5,6 +5,7 @@ import EasterEgg from "../components/EasterEgg.tsx";
 import Header from "../components/Header.tsx";
 import HashNavigator from "../components/HashNavigator.tsx";
 import KeyboardHints from "../components/KeyboardHints.tsx";
+import OverflowDetector from "../components/OverflowDetector.tsx";
 import ToastHost from "../components/ToastHost.tsx";
 import { profile } from "../data/profile";
 
@@ -72,5 +73,6 @@ const ogImage = Astro.site ? new URL(`${base}og.svg`, Astro.site).toString() : `
     <KeyboardHints client:load />
     <HashNavigator client:load />
     <ToastHost client:load />
+    {import.meta.env.DEV ? <OverflowDetector client:load /> : null}
   </body>
 </html>
