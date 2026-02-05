@@ -92,7 +92,19 @@ jobs:
               failures.push(`[${profile}] missing report run`);
               continue;
             }
-            const reportPath = path.join(".lighthouseci", profile, run.jsonPath);
+            const manifestDir = path.dirname(manifestPath);
+            const candidates = [
+              run.jsonPath,
+              path.join(manifestDir, run.jsonPath),
+              path.resolve("/", run.jsonPath),
+              path.resolve(process.cwd(), run.jsonPath),
+              path.resolve(process.cwd(), run.jsonPath.replace(/^\/+/, "")),
+            ];
+            const reportPath = candidates.find((candidate) => fs.existsSync(candidate));
+            if (!reportPath) {
+              failures.push(`[${profile}] report not found for jsonPath=${run.jsonPath}`);
+              continue;
+            }
             const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
             for (const [category, floor] of Object.entries(floors)) {
               const score = report.categories[category]?.score ?? 0;
