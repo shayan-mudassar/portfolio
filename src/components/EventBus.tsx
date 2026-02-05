@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type Node = {
+type BusNode = {
   label: string;
   tooltip: string;
 };
 
-const nodes: Node[] = [
+const nodes: BusNode[] = [
   { label: "API Gateway", tooltip: "Idempotency + auth guard" },
   { label: "Lambda", tooltip: "Retries + backoff" },
   { label: "DynamoDB / RDS", tooltip: "Outbox + atomic writes" },
@@ -43,7 +43,7 @@ const EventBus = () => {
 
   useEffect(() => {
     const onPointerDown = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Node | null;
+      const target = event.target as globalThis.Node | null;
       if (!target || !busRef.current) return;
       if (busRef.current.contains(target)) return;
       setFocusedIndex(null);
