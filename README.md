@@ -30,7 +30,27 @@ The static output is generated in `dist/`.
 npm run lint
 npm run typecheck
 npm run test
+npm run test:e2e
+npm run lighthouse
 ```
+
+Before first `test:e2e` run:
+
+```bash
+npx playwright@1.51.1 install --with-deps chromium
+```
+
+## Responsive checks locally
+
+- Run `npm run dev` and test mobile/tablet/desktop breakpoints.
+- Dev mode includes overflow diagnostics:
+  - elements wider than the viewport get a red dashed outline
+  - offenders are logged in DevTools as `[overflow-debug]`
+- Verify hash/deep links while testing responsive behavior:
+  - `/#playground`
+  - `/#experience`
+  - `/#projects?project=sentinel`
+  - `/#projects?project=anomaly`
 
 ## Project structure
 
@@ -41,12 +61,14 @@ npm run test
 
 ## GitHub Pages deployment
 
-This repo includes `.github/workflows/deploy.yml`, which on every push to `main`:
+This repo includes `.github/workflows/deploy.yml`, which runs quality checks on pull requests and pushes to `main`:
 
 1. Installs dependencies
-2. Runs lint + typecheck + tests
+2. Runs lint + typecheck + unit placeholder tests + Playwright smoke tests
 3. Builds to `dist/`
-4. Deploys to GitHub Pages using the official Pages actions
+4. Runs Lighthouse CI (mobile + desktop) and uploads reports as artifacts
+5. Enforces a catastrophic Lighthouse floor (target thresholds stay warning-only)
+6. Deploys to GitHub Pages on `main` using the official Pages actions
 
 ### Base path and repo name
 

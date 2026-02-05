@@ -10,6 +10,7 @@
     "lint": "astro check",
     "typecheck": "astro check",
     "lighthouse": "npx @lhci/cli@0.14.x autorun --config=.lighthouserc.mobile.json && npx @lhci/cli@0.14.x autorun --config=.lighthouserc.desktop.json",
+    "test:e2e": "npx playwright@1.51.1 test",
     "test": "node -e \"console.log('No automated tests yet')\""
   },
   "dependencies": {
