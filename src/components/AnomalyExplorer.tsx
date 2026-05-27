@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { showToast } from "./ToastHost";
 import { getShareUrl, parseHash, setHash } from "../utils/hashRouting";
 
-type Model = "Isolation Forest" | "One-Class SVM";
+type Model = "K-Means" | "Random Forest";
 
 type Point = {
   index: number;
@@ -27,19 +27,19 @@ const createSeries = (): Point[] => {
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 const modelToParam: Record<Model, string> = {
-  "Isolation Forest": "iforest",
-  "One-Class SVM": "ocsvm",
+  "K-Means": "kmeans",
+  "Random Forest": "forest",
 };
 
 const modelFromParam = (value: string | null) => {
   if (!value) return null;
-  if (value.toLowerCase() === "iforest") return "Isolation Forest";
-  if (value.toLowerCase() === "ocsvm") return "One-Class SVM";
+  if (value.toLowerCase() === "kmeans") return "K-Means";
+  if (value.toLowerCase() === "forest") return "Random Forest";
   return null;
 };
 
 const AnomalyExplorer = () => {
-  const [model, setModel] = useState<Model>("Isolation Forest");
+  const [model, setModel] = useState<Model>("K-Means");
   const [contamination, setContamination] = useState(0.08);
   const [threshold, setThreshold] = useState(2.1);
   const [syncUrl, setSyncUrl] = useState(false);
@@ -57,7 +57,7 @@ const AnomalyExplorer = () => {
     const std = Math.sqrt(variance) || 1;
 
     const scores = values.map((value) => Math.abs(value - mean) / std);
-    const sensitivity = model === "Isolation Forest" ? 1 + contamination * 1.5 : 1 + contamination;
+    const sensitivity = model === "Random Forest" ? 1 + contamination * 1.5 : 1 + contamination;
 
     const predicted = scores.map((score) => score * sensitivity >= threshold);
 
@@ -169,7 +169,9 @@ const AnomalyExplorer = () => {
       <div className="project-header">
         <div>
           <h3>Network Anomaly Detection</h3>
-          <p className="project-tagline">Detect abnormal behavior from logs without labeled data.</p>
+          <p className="project-tagline">
+            Detect and classify network traffic anomalies with KDDCUP99, feature engineering, and model evaluation.
+          </p>
         </div>
         <div className="project-actions">
           <a
@@ -242,20 +244,20 @@ const AnomalyExplorer = () => {
           </div>
           <div>
             <h4>Problem</h4>
-            <p>Ops teams need to detect abnormal network behavior from logs without labeled incident data.</p>
+            <p>Network traffic needs to be classified quickly so abnormal behavior can be surfaced before it spreads.</p>
           </div>
           <div>
             <h4>Approach</h4>
             <ul>
-              <li>Built a feature pipeline and synthetic evaluation set to test sensitivity.</li>
-              <li>Compared Isolation Forest vs One-Class SVM for unsupervised detection.</li>
-              <li>Exposed contamination and threshold controls to make tradeoffs explicit.</li>
+              <li>Used KDDCUP99 data with feature engineering to prepare traffic signals for model evaluation.</li>
+              <li>Compared K-Means clustering and Random Forest classification for anomaly detection tradeoffs.</li>
+              <li>Exposed contamination and threshold controls to make precision and recall tradeoffs explicit.</li>
             </ul>
           </div>
           <div>
             <h4>Outcome</h4>
             <ul>
-              <li>Delivered actionable anomaly signals for monitoring use cases.</li>
+              <li>Delivered anomaly classifications that can support monitoring and investigation workflows.</li>
               <li>Made model tradeoffs transparent for stakeholders.</li>
             </ul>
           </div>
@@ -264,7 +266,7 @@ const AnomalyExplorer = () => {
             <p>Analysts tune thresholds, compare models, and review highlighted anomalies in a time-series view.</p>
           </div>
           <div className="breaks-first">
-            <strong>What breaks first:</strong> contamination drift pushes false positives before thresholds are
+            <strong>What breaks first:</strong> traffic drift pushes false positives before thresholds are
             recalibrated.
           </div>
           <div className="accordion">
@@ -297,7 +299,7 @@ const AnomalyExplorer = () => {
         </div>
 
         <div className="model-toggle" role="tablist" aria-label="Model selector">
-          {["Isolation Forest", "One-Class SVM"].map((option) => (
+          {["K-Means", "Random Forest"].map((option) => (
             <button
               key={option}
               type="button"
@@ -395,16 +397,16 @@ const AnomalyExplorer = () => {
         </div>
 
         <div className="arch-hint">
-          {model === "Isolation Forest"
-            ? "Isolation Forest expects a contamination ratio and flags outliers by density splits."
-            : "One-Class SVM draws a boundary around normal behavior and flags points outside it."}
+          {model === "K-Means"
+            ? "K-Means groups similar traffic patterns and flags points far from expected clusters."
+            : "Random Forest uses engineered features to classify traffic patterns and highlight anomalies."}
         </div>
 
         <div className="accordion">
           <details>
             <summary>Key engineering decisions</summary>
             <ul>
-              <li>Unsupervised models avoid labeled data bottlenecks.</li>
+              <li>KDDCUP99 gives a repeatable benchmark for anomaly detection experiments.</li>
               <li>Standardized distance scoring keeps thresholds consistent across runs.</li>
               <li>UI surfaces precision and recall to guide operations teams.</li>
             </ul>

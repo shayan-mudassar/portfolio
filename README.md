@@ -92,17 +92,18 @@ SITE_URL="https://yourdomain.com/" npm run build
 Edit `src/data/profile.ts` to change:
 
 - Experience timeline (used for hero micro-metrics)
+- SMSAMI role progression, including the frontend-to-backend move
 - Projects and links
 - Skills clusters
 - Certifications and education
-- Email address
+- Email address and phone number
 - Architecture node labels and details
 
 Hero proof bar copy lives in `src/pages/index.astro` (`proofBar`).
 
 ## Updating assets
 
-- CV: replace `public/assets/Shayan_Mudassar_CV.pdf` with your latest PDF.
+- CV: replace `public/assets/Shayan_Mudassar_CV.pdf` with the latest PDF.
 - Project screenshots: replace the placeholders in `public/assets/projects/`:
   - `public/assets/projects/sentinel-placeholder.svg`
   - `public/assets/projects/anomaly-placeholder.svg`
@@ -125,7 +126,7 @@ Project deep links:
 
 Anomaly shareable state:
 
-- `/#projects?project=anomaly&model=iforest&cont=0.08&sigma=2.1`
+- `/#projects?project=anomaly&model=kmeans&cont=0.08&sigma=2.1`
 
 ## Notes
 

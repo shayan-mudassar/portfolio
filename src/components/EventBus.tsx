@@ -6,11 +6,11 @@ type BusNode = {
 };
 
 const nodes: BusNode[] = [
-  { label: "API Gateway", tooltip: "Idempotency + auth guard" },
-  { label: "Lambda", tooltip: "Retries + backoff" },
-  { label: "DynamoDB / RDS", tooltip: "Outbox + atomic writes" },
-  { label: "EventBridge / SQS", tooltip: "DLQ + fan-out" },
-  { label: "Observability", tooltip: "Tracing + alerts" },
+  { label: "REST APIs", tooltip: "Product workflow contracts" },
+  { label: "Node.js / Lambda", tooltip: "Backend logic + retries" },
+  { label: "MySQL / DynamoDB", tooltip: "Sequelize + Dynamoose records" },
+  { label: "SQS / SNS", tooltip: "Async processing + fan-out" },
+  { label: "CloudWatch", tooltip: "Logs + production debugging" },
 ];
 
 const EventBus = () => {

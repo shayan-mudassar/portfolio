@@ -8,7 +8,11 @@ import { profile } from "../data/profile";
       <details open={index === 0}>
         <summary>
           <div>
-            {role.company} - {role.role}
+            <div class="timeline-title">
+              <span>{role.company}</span>
+              <span class="timeline-title-separator">-</span>
+              <span>{role.role}</span>
+            </div>
             <div class="timeline-role">{role.location}</div>
             {role.impact ? <div class="timeline-impact">{role.impact}</div> : null}
           </div>
@@ -20,6 +24,24 @@ import { profile } from "../data/profile";
               <li>{bullet}</li>
             ))}
           </ul>
+          {role.roles?.length ? (
+            <div class="career-stack" aria-label={`${role.company} role progression`}>
+              {role.roles.map((step) => (
+                <div class="career-step">
+                  <div class="career-step-header">
+                    <div class="career-step-title">{step.title}</div>
+                    <div class="career-step-meta">{step.period}</div>
+                  </div>
+                  <ul>
+                    {step.bullets.map((bullet) => (
+                      <li>{bullet}</li>
+                    ))}
+                  </ul>
+                  <div class="career-tech">Tech: {step.tech}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
           <div class="timeline-panels">
             <div class="panel-box">
               <strong>What I shipped</strong>

@@ -908,6 +908,17 @@ button:disabled {
   min-height: 44px;
 }
 
+.timeline-title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  line-height: 1.3;
+}
+
+.timeline-title-separator {
+  color: var(--mono);
+}
+
 .timeline summary::-webkit-details-marker,
 .skills-map summary::-webkit-details-marker,
 .accordion summary::-webkit-details-marker {
@@ -961,6 +972,64 @@ button:disabled {
 .timeline-body ul {
   margin: 0;
   padding-left: 18px;
+}
+
+.career-stack {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  margin-top: 2px;
+  padding-left: 26px;
+}
+
+.career-stack::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+
+.career-step {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding-bottom: 6px;
+}
+
+.career-step::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-elev);
+  border: 2px solid var(--accent);
+}
+
+.career-step-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.career-step-title {
+  font-weight: 600;
+}
+
+.career-step-meta,
+.career-tech {
+  font-size: 0.84rem;
+  color: var(--mono);
+}
+
+.career-step-meta {
+  white-space: nowrap;
 }
 
 .timeline-panels {
@@ -1454,6 +1523,15 @@ input[type="range"] {
   box-shadow: var(--shadow-soft);
 }
 
+.contact-methods {
+  display: grid;
+  gap: 10px;
+}
+
+.contact-method {
+  overflow-wrap: anywhere;
+}
+
 .contact-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1864,6 +1942,16 @@ html[data-arch="on"] #architecture-map {
 
   .hero-proof-bar span + span::before {
     margin-right: 8px;
+  }
+
+  .timeline summary,
+  .career-step-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .career-step-meta {
+    white-space: normal;
   }
 
   .anomaly-header {

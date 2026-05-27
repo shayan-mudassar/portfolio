@@ -11,15 +11,11 @@ import ContactCopy from "../components/ContactCopy.tsx";
 import { profile } from "../data/profile";
 
 const description =
-  "Senior Full-Stack Engineer in London delivering product-ready, event-driven systems with end-to-end ownership and production readiness.";
+  "Software Engineer in London building customer-facing web applications, backend APIs, internal tools, and cloud-based services.";
 const base = import.meta.env.BASE_URL;
 const cvUrl = `${base}${profile.cvPath.replace(/^\//, "")}`;
-const proofBar = ["AWS Serverless", "Event-driven", "Reliability patterns", "Product-facing systems"];
-const usageMetric = profile.experience[0]?.bullets.find((bullet) => bullet.includes("thousands of users"));
-const latencyMetric = profile.experience[0]?.impact
-  ? `${profile.experience[0].impact} on critical endpoints`
-  : profile.experience[0]?.bullets.find((bullet) => bullet.includes("critical endpoints"));
-const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
+const proofBar = ["Node.js", "TypeScript", "React", "AWS Serverless"];
+const heroMetrics = profile.heroMetrics;
 ---
 <MainLayout title={`${profile.name} | ${profile.role}`} description={description}>
   <section class="section hero" id="home">
@@ -43,10 +39,19 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
         ) : null}
         <div class="hero-actions">
           <a class="cta-primary" href={cvUrl} aria-label="View resume PDF">
-            Resume
+            CV
           </a>
           <a class="cta-secondary" href={`mailto:${profile.email}`} aria-label="Contact Shayan via email">
             Contact
+          </a>
+          <a
+            class="cta-secondary"
+            href={profile.links.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Shayan Mudassar on LinkedIn"
+          >
+            LinkedIn
           </a>
           <a
             class="cta-secondary"
@@ -103,7 +108,7 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
       <div class="section-header section-header--sticky">
         <div>
           <div class="eyebrow">Experience</div>
-          <h2>Owning services end-to-end in production.</h2>
+          <h2>Frontend, backend, and production support across live products.</h2>
         </div>
         <div class="pill">Expandable timeline</div>
       </div>
@@ -132,7 +137,7 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
       <div class="section-header">
         <div>
           <div class="eyebrow">Capability map</div>
-          <h2>Focused clusters instead of a wall of buzzwords.</h2>
+          <h2>Technical skills pulled from the latest CV.</h2>
         </div>
       </div>
       <div class="skills-map">
@@ -155,7 +160,7 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
       <div class="section-header">
         <div>
           <div class="eyebrow">Certifications & Education</div>
-          <h2>Security and data science grounded in engineering.</h2>
+          <h2>Applied AI, computer science, security, and data science.</h2>
         </div>
       </div>
       <div class="cert-grid">
@@ -169,6 +174,8 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
           <div class="cert-card">
             <strong>{edu.title}</strong>
             <div class="arch-hint">{edu.issuer}</div>
+            {edu.period ? <div class="arch-hint">{edu.period}</div> : null}
+            {edu.detail ? <div class="arch-hint">{edu.detail}</div> : null}
           </div>
         ))}
       </div>
@@ -180,7 +187,7 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
       <div class="cta-card">
         <div>
           <div class="eyebrow">Open to roles</div>
-          <h2>Open to roles: Full-Stack / Backend (Product-facing)</h2>
+          <h2>Open to roles: Software Engineer / Full-Stack / Backend</h2>
           <p class="arch-hint">{profile.workPreference}</p>
         </div>
         <div class="cta-actions">
@@ -200,11 +207,11 @@ const heroMetrics = [latencyMetric, usageMetric].filter(Boolean) as string[];
       <div class="section-header">
         <div>
           <div class="eyebrow">Contact</div>
-          <h2>Let's talk about product-facing systems.</h2>
-          <p class="arch-hint">Copy the email or open your mail client.</p>
+          <h2>Let's talk about web apps, APIs, and cloud services.</h2>
+          <p class="arch-hint">Copy the contact details or open your mail client.</p>
         </div>
       </div>
-      <ContactCopy client:visible email={profile.email} />
+      <ContactCopy client:visible email={profile.email} phone={profile.phone} />
     </div>
   </section>
 </MainLayout>

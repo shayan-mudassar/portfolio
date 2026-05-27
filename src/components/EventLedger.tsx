@@ -8,7 +8,7 @@ type LedgerEvent = {
 };
 
 const eventNames = [
-  { name: "payment_webhook_failed", tag: "webhook" },
+  { name: "alert_ingestion_failed", tag: "alert" },
   { name: "incident_acknowledged", tag: "incident" },
   { name: "retry_scheduled", tag: "retry" },
   { name: "dlq_replay_started", tag: "dlq" },

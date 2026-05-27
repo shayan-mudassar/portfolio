@@ -56,7 +56,7 @@ const scenarios: Record<
   }
 > = {
   Timeout: {
-    start: "Event received: payment_webhook_failed",
+    start: "Event received: alert_ingestion_failed",
     attempt1: "Attempt #1 timed out -> scheduling retry (1.2s)",
     attempt2: "Attempt #2 timed out -> routed to DLQ",
     metrics: {
@@ -67,7 +67,7 @@ const scenarios: Record<
     },
   },
   "Bad payload": {
-    start: "Event received: payment_webhook_failed",
+    start: "Event received: alert_ingestion_failed",
     attempt1: "Attempt #1 rejected -> payload validation failed",
     attempt2: "Attempt #2 rejected -> routed to DLQ",
     metrics: {
@@ -78,7 +78,7 @@ const scenarios: Record<
     },
   },
   "Rate limit": {
-    start: "Event received: payment_webhook_failed",
+    start: "Event received: alert_ingestion_failed",
     attempt1: "Attempt #1 rate limited -> backing off (1.2s)",
     attempt2: "Attempt #2 rate limited -> routed to DLQ",
     metrics: {
@@ -98,9 +98,9 @@ type Postmortem = {
 
 const postmortems: Record<FailureMode, Postmortem> = {
   Timeout: {
-    summary: "Downstream API exceeded timeout budget during webhook processing.",
+    summary: "Downstream API exceeded timeout budget during alert processing.",
     timeline: [
-      { time: "+0s", detail: "Webhook received and correlation ID assigned." },
+      { time: "+0s", detail: "Alert received and correlation ID assigned." },
       { time: "+0.6s", detail: "Idempotency lock acquired, processing started." },
       { time: "+1.2s", detail: "Attempt #1 timed out, retry queued." },
       { time: "+2.2s", detail: "Attempt #2 timed out, message moved to DLQ." },
@@ -114,7 +114,7 @@ const postmortems: Record<FailureMode, Postmortem> = {
   "Bad payload": {
     summary: "Schema drift caused repeated validation failures on payloads.",
     timeline: [
-      { time: "+0s", detail: "Webhook received and payload parsing started." },
+      { time: "+0s", detail: "Alert received and payload parsing started." },
       { time: "+0.6s", detail: "Idempotency lock acquired, validation enforced." },
       { time: "+1.2s", detail: "Attempt #1 rejected, retry queued." },
       { time: "+2.2s", detail: "Attempt #2 rejected, message moved to DLQ." },
@@ -128,7 +128,7 @@ const postmortems: Record<FailureMode, Postmortem> = {
   "Rate limit": {
     summary: "Burst traffic exceeded rate limits and triggered repeated backoff.",
     timeline: [
-      { time: "+0s", detail: "Webhook received, rate limit window hit." },
+      { time: "+0s", detail: "Alert received, rate limit window hit." },
       { time: "+0.6s", detail: "Idempotency lock acquired, backoff started." },
       { time: "+1.2s", detail: "Attempt #1 rate limited, retry queued." },
       { time: "+2.2s", detail: "Attempt #2 rate limited, message moved to DLQ." },
@@ -257,7 +257,7 @@ const SentinelSimulator = () => {
 
     timersRef.current.push(
       window.setTimeout(() => {
-        pushLog("Webhook delivered, incident resolved");
+        pushLog("Alert delivered, incident resolved");
         updateMetrics(260, 0.05);
         setStatus("replayed");
       }, delay(1600))
@@ -269,7 +269,9 @@ const SentinelSimulator = () => {
       <div className="project-header">
         <div>
           <h3>Sentinel Incident Platform</h3>
-          <p className="project-tagline">Incident workflow coordination with reliable event processing.</p>
+          <p className="project-tagline">
+            Alert ingestion, correlation, state management, retries, logging, and observability.
+          </p>
         </div>
         <div className="project-actions">
           <a
@@ -321,7 +323,7 @@ const SentinelSimulator = () => {
 
               <rect className="snapshot-node" x="10" y="20" width="86" height="40" rx="10" />
               <text className="snapshot-label" x="53" y="45" textAnchor="middle">
-                Webhook
+                Alert
               </text>
 
               <rect className="snapshot-node" x="126" y="20" width="86" height="40" rx="10" />
@@ -344,12 +346,12 @@ const SentinelSimulator = () => {
                 DLQ
               </text>
             </svg>
-            <div className="arch-hint">Webhook intake flows through retries, DLQ, and replay tooling.</div>
+            <div className="arch-hint">Alert intake flows through retries, DLQ, and replay tooling.</div>
           </div>
           <div>
             <h4>Problem</h4>
             <p>
-              Incident workflows break when payment webhooks fail or arrive twice, making recovery slow and hard to
+              Incident workflows break when alert events fail or arrive twice, making recovery slow and hard to
               audit.
             </p>
           </div>
@@ -370,10 +372,10 @@ const SentinelSimulator = () => {
           </div>
           <div>
             <h4>How users interact with it</h4>
-            <p>Operators trigger incidents, review retries, and replay failed events from a shared console.</p>
+            <p>Operators ingest alerts, review retries, and replay failed events from a shared console.</p>
           </div>
           <div className="breaks-first">
-            <strong>What breaks first:</strong> downstream webhook providers stall, pushing retries into the DLQ and
+            <strong>What breaks first:</strong> downstream alert integrations stall, pushing retries into the DLQ and
             stretching recovery timelines.
           </div>
           <div className="accordion">
@@ -425,7 +427,7 @@ const SentinelSimulator = () => {
               onClick={runSimulation}
               disabled={status === "running"}
             >
-              Trigger payment_webhook_failed
+              Trigger alert_ingestion_failed
             </button>
             <button className="cta-secondary" type="button" onClick={replay} disabled={status !== "dlq"}>
               Replay
@@ -461,7 +463,7 @@ const SentinelSimulator = () => {
           <details>
             <summary>Key engineering decisions</summary>
             <ul>
-              <li>Idempotency keys gate webhook retries to prevent double writes.</li>
+              <li>Idempotency keys gate alert retries to prevent double writes.</li>
               <li>Outbox events keep data changes and emissions consistent.</li>
               <li>DLQ + replay tooling isolates failures without losing events.</li>
               <li>Correlation IDs flow through logs, traces, and alerts.</li>
