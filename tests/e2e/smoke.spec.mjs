@@ -16,7 +16,7 @@ test('projects deep link shows sentinel card', async ({ page }) => {
 test('anomaly deep link opens with interactive model toggle', async ({ page }) => {
   await page.goto('/#projects?project=anomaly');
 
-  const tab = page.getByRole('tab', { name: 'One-Class SVM' });
+  const tab = page.getByRole('tab', { name: 'Random Forest' });
   await tab.click();
   await expect(tab).toHaveAttribute('aria-selected', 'true');
 });
